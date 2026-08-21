@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,72 +12,279 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FEF1B4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #225E2E;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0A5C36;
+        }
+
+        /* ===== NAVBAR ===== */
+        #mainNavbar {
+            background: rgba(34, 94, 46, 0.95);
+            padding: 12px 0;
+            transition: all 0.4s ease;
+            border-bottom: 2px solid rgba(254, 241, 180, 0.2);
+            z-index: 1000;
+        }
+
+        #mainNavbar .navbar-brand {
+            transition: all 0.3s ease;
+        }
+
+        #mainNavbar .navbar-brand img {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border: 2px solid #FEF1B4;
+            transition: all 0.3s ease;
+        }
+
+        #mainNavbar .navbar-brand img:hover {
+            transform: scale(1.08);
+        }
+
+        #mainNavbar .navbar-brand span {
+            font-size: 1.6rem;
+            font-weight: 700;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            color: #FEF1B4;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #mainNavbar .navbar-brand span:hover {
+            color: #FBF5C3;
+            transform: scale(1.02);
+        }
+
+        /* Navbar Links */
+        .nav-link-custom {
+            position: relative;
+            font-weight: 500;
+            font-size: 1.05rem;
+            padding: 8px 0 !important;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            color: #ffffff !important;
+            text-decoration: none;
+        }
+
+        .nav-link-custom:hover {
+            color: #FEF1B4 !important;
+            transform: scale(1.05);
+        }
+
+        .nav-link-custom i {
+            margin-right: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link-custom:hover i {
+            transform: scale(1.15);
+        }
+
+        /* Navbar Toggler */
+        .navbar-toggler {
+            color: #FEF1B4;
+            font-size: 1.5rem;
+            padding: 5px 10px;
+            border: none;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(254, 241, 180, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Dropdown */
+        .dropdown-menu {
+            background: #225E2E !important;
+            border: 1px solid rgba(254, 241, 180, 0.2) !important;
+            border-radius: 15px !important;
+            padding: 10px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown-menu .dropdown-item {
+            border-radius: 10px;
+            padding: 10px 20px !important;
+            transition: all 0.3s ease;
+            color: #ffffff !important;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background: rgba(254, 241, 180, 0.15) !important;
+            transform: scale(1.03);
+            color: #FEF1B4 !important;
+        }
+
+        .dropdown-menu .dropdown-item i {
+            margin-right: 10px;
+            color: #FEF1B4;
+        }
+
+        .dropdown-divider {
+            border-color: rgba(254, 241, 180, 0.2) !important;
+        }
+
+        /* Cart Badge */
+        .cart-count {
+            font-size: 0.7rem;
+            padding: 3px 7px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0A5C36;
+            color: #FEF1B4;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 991px) {
+            #mainNavbar .navbar-brand span {
+                font-size: 1.3rem !important;
+            }
+            #mainNavbar .navbar-brand img {
+                width: 40px !important;
+                height: 40px !important;
+            }
+            .nav-link-custom {
+                font-size: 1.1rem;
+                padding: 10px 0 !important;
+                text-align: center;
+            }
+            .navbar-nav {
+                gap: 0 !important;
+                padding: 15px 0;
+            }
+            .nav-item {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid rgba(254, 241, 180, 0.1);
+            }
+            .nav-item:last-child {
+                border-bottom: none;
+            }
+            .dropdown-menu {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+            .dropdown-menu .dropdown-item {
+                text-align: center;
+            }
+            .dropdown-menu .dropdown-item:hover {
+                background: rgba(254, 241, 180, 0.1) !important;
+            }
+            .dropdown-divider {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container-fluid {
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+            }
+            #mainNavbar .navbar-brand span {
+                font-size: 1rem !important;
+            }
+            #mainNavbar .navbar-brand img {
+                width: 30px !important;
+                height: 30px !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top" style="background: rgba(34, 94, 46, 0.95); backdrop-filter: blur(10px);">
-        <div class="container">
-            <div class="navbar-brand d-flex align-items-center">
-                <img src="{% static 'images/logo.png' %}" alt="Logo" class="rounded-circle me-2" style="width: 50px; height: 50px; object-fit: cover;">
-                <span class="text-white fw-bold fs-4">Kiarash Cafe</span>
-            </div>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar">
+        <div class="container-fluid px-5">
+            <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" class="rounded-circle me-3">
+                <span>Kiarash Cafe</span>
+            </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-4">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{% url 'core:home' %}">
+                        <a class="nav-link nav-link-custom" href="{% url 'core:home' %}">
                             <i class="fas fa-home"></i> Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{% url 'menu:menu_list' %}">
+                        <a class="nav-link nav-link-custom" href="{% url 'menu:menu_list' %}">
                             <i class="fas fa-utensils"></i> Menu
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{% url 'core:about' %}">
+                        <a class="nav-link nav-link-custom" href="{% url 'core:about' %}">
                             <i class="fas fa-info-circle"></i> About
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{% url 'core:contact' %}">
+                        <a class="nav-link nav-link-custom" href="{% url 'core:contact' %}">
                             <i class="fas fa-envelope"></i> Contact
                         </a>
                     </li>
 
                     {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{% url 'orders:cart' %}">
-                                <i class="fas fa-shopping-cart"></i>
-                                <span class="badge bg-danger cart-count" id="cart-count">0</span>
+                        <li class="nav-item position-relative">
+                            <a class="nav-link nav-link-custom" href="{% url 'orders:cart' %}">
+                                <i class="fas fa-shopping-cart fs-5"></i>
+                                <span class="badge bg-danger rounded-pill cart-count" id="cart-count" style="position: absolute; top: -5px; right: -12px;">0</span>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user"></i> {{ user.first_name }}
+                            <a class="nav-link dropdown-toggle nav-link-custom" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i> {{ user.first_name|default:user.username }}
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'orders:my_orders' %}">My Orders</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'orders:my_orders' %}"><i class="fas fa-list"></i> My Orders</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{% url 'accounts:register' %}">
+                            <a class="nav-link nav-link-custom" href="{% url 'accounts:register' %}">
                                 <i class="fas fa-user-plus"></i> Register
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{% url 'accounts:login' %}">
+                            <a class="nav-link nav-link-custom" href="{% url 'accounts:login' %}">
                                 <i class="fas fa-sign-in-alt"></i> Login
                             </a>
                         </li>
@@ -86,20 +294,48 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- ===== MAIN CONTENT ===== -->
     <main>
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="text-white text-center py-3 mt-auto" style="background: #0A5C36;">
+    <!-- ===== FOOTER ===== -->
+    <footer class="text-center py-3 mt-auto">
         <div class="container">
             <p class="mb-0">&copy; 2024 Kiarash Cafe. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
+    <!-- ===== SCRIPTS ===== -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(10, 92, 54, 0.95)';
+                navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+            } else {
+                navbar.style.background = 'rgba(34, 94, 46, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Update cart count
+        function updateCartCount() {
+            fetch('/menu/cart-count/')
+                .then(response => response.json())
+                .then(data => {
+                    const el = document.getElementById('cart-count');
+                    if (el) el.textContent = data.count || 0;
+                })
+                .catch(() => {});
+        }
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
 </body>
 </html>

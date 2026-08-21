@@ -30,7 +30,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.4);
+        background: rgba(0, 0, 0, 0.45);
         z-index: 2;
     }
 
@@ -42,16 +42,23 @@
     }
 
     .hero-content h1 {
-        font-size: 4rem;
+        font-size: 4.5rem;
         font-weight: 700;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        animation: fadeInDown 1.5s ease;
+        margin-bottom: 20px;
+    }
+
+    .hero-content p {
+        font-size: 1.5rem;
+        font-weight: 300;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        margin-bottom: 30px;
     }
 
     .btn-menu {
         background: #225E2E;
         color: #FEF1B4;
-        padding: 15px 50px;
+        padding: 18px 60px;
         border-radius: 50px;
         font-size: 1.3rem;
         font-weight: 600;
@@ -59,38 +66,26 @@
         transition: all 0.3s ease;
         text-decoration: none;
         display: inline-block;
-        margin-top: 30px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        animation: fadeInUp 1.5s ease 0.5s both;
+        border: 2px solid transparent;
+        cursor: pointer;
     }
 
     .btn-menu:hover {
-        transform: translateY(-5px) scale(1.05);
         background: #306B34;
         color: #FBF5C3;
+        transform: scale(1.05);
+        border-color: #FEF1B4;
         box-shadow: 0 15px 40px rgba(34, 94, 46, 0.4);
     }
 
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .btn-menu i {
+        margin-right: 10px;
+        transition: all 0.3s ease;
     }
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .btn-menu:hover i {
+        transform: scale(1.1);
     }
 
     .section-about {
@@ -120,7 +115,7 @@
     }
 
     .about-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         box-shadow: 0 20px 60px rgba(0,0,0,0.15);
     }
 
@@ -130,12 +125,27 @@
         object-fit: cover;
         border-radius: 15px;
         margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .about-card:hover img {
+        transform: scale(1.03);
+    }
+
+    .about-card h4 {
+        color: #0A5C36;
     }
 
     .stats-number {
         font-size: 3rem;
         font-weight: 700;
-        color: #FEF1B4;
+        color: #0A5C36;
+        transition: all 0.3s ease;
+    }
+
+    .stats-number:hover {
+        transform: scale(1.05);
+        color: #225E2E;
     }
 
     .contact-card {
@@ -149,7 +159,7 @@
     }
 
     .contact-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         background: rgba(255,255,255,0.2);
     }
 
@@ -157,11 +167,23 @@
         font-size: 3rem;
         color: #FEF1B4;
         margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .contact-card:hover i {
+        transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 { font-size: 2.5rem; }
+        .hero-content p { font-size: 1.2rem; }
+        .btn-menu { padding: 14px 40px; font-size: 1.1rem; }
+        .stats-number { font-size: 2rem; }
     }
 </style>
 
-<!-- Hero Section with Video -->
-<section class="hero-section">
+<!-- Hero Section -->
+<section class="hero-section" id="hero">
     <video class="hero-video" autoplay muted loop playsinline>
         <source src="{% static 'videos/cafe_video.mp4' %}" type="video/mp4">
         Your browser does not support the video tag.
@@ -169,7 +191,7 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <h1>Welcome to Kiarash Cafe</h1>
-        <p class="fs-3">Experience the finest coffee &amp; treats</p>
+        <p>Experience the finest coffee &amp; treats</p>
         <a href="{% url 'menu:menu_list' %}" class="btn-menu">
             <i class="fas fa-utensils"></i> View Menu
         </a>
@@ -187,28 +209,27 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about1.jpg' %}" alt="About 1">
-                    <h4 style="color: #0A5C36;">Our Story</h4>
+                    <img src="{% static 'images/about1.png' %}" alt="About 1">
+                    <h4>Our Story</h4>
                     <p>Founded with a passion for quality coffee and warm hospitality.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about2.jpg' %}" alt="About 2">
-                    <h4 style="color: #0A5C36;">Our Coffee</h4>
+                    <img src="{% static 'images/about2.png' %}" alt="About 2">
+                    <h4>Our Coffee</h4>
                     <p>Sourced from the finest beans, roasted to perfection daily.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about3.jpg' %}" alt="About 3">
-                    <h4 style="color: #0A5C36;">Our Team</h4>
+                    <img src="{% static 'images/about3.png' %}" alt="About 3">
+                    <h4>Our Team</h4>
                     <p>Passionate baristas and friendly staff ready to serve you.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Statistics -->
         <div class="row g-4 mt-5 text-center">
             <div class="col-md-3 col-6">
                 <div class="stats-number" id="stat1">0</div>
@@ -267,10 +288,10 @@
         <div class="row mt-5">
             <div class="col-12 text-center">
                 <div class="d-flex justify-content-center gap-4">
-                    <a href="#" class="text-white fs-2"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-white fs-2"><i class="fab fa-telegram"></i></a>
-                    <a href="#" class="text-white fs-2"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" class="text-white fs-2"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="text-white fs-2 social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white fs-2 social-link"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="text-white fs-2 social-link"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="text-white fs-2 social-link"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
@@ -278,61 +299,103 @@
 </section>
 
 <script>
-    // GSAP Animations
-    gsap.registerPlugin(ScrollTrigger);
-
-    // About Section Animation
-    gsap.from('.about-card', {
-        scrollTrigger: {
-            trigger: '.section-about',
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.3
-    });
-
-    // Contact Section Animation
-    gsap.from('.contact-card', {
-        scrollTrigger: {
-            trigger: '.section-contact',
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.3
-    });
-
-    // Statistic Counter Animation
-    function animateCounter(elementId, target, suffix = '') {
-        const element = document.getElementById(elementId);
-        let current = 0;
-        const increment = target / 50;
-        const interval = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(interval);
-            }
-            element.textContent = Math.floor(current) + suffix;
-        }, 30);
-    }
-
-    // Trigger stat counters
-    const statsTrigger = ScrollTrigger.create({
-        trigger: '.section-about',
-        start: 'top 70%',
-        once: true,
-        onEnter: () => {
-            animateCounter('stat1', 2500, '+');
-            animateCounter('stat2', 12500, '+');
-            animateCounter('stat3', 12, '+');
-            animateCounter('stat4', 8, '+');
+    // ===== HOVER ANIMATIONS WITH GSAP =====
+    document.addEventListener('DOMContentLoaded', function() {
+        // Menu button hover
+        const menuBtn = document.querySelector('.btn-menu');
+        if (menuBtn) {
+            menuBtn.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    scale: 1.05,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            menuBtn.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    scale: 1,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
         }
+
+        // About cards hover
+        document.querySelectorAll('.about-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    y: -8,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Contact cards hover
+        document.querySelectorAll('.contact-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    y: -8,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Social links hover
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    scale: 1.2,
+                    color: '#FEF1B4',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            link.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    scale: 1,
+                    color: '#ffffff',
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Statistics counter with GSAP
+        function animateCounter(id, target) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            let current = 0;
+            const increment = target / 50;
+            const interval = setInterval(() => {
+                current += increment;
+                if (current >= target) { current = target; clearInterval(interval); }
+                el.textContent = Math.floor(current);
+            }, 30);
+        }
+
+        // Start counters when page loads
+        setTimeout(() => {
+            animateCounter('stat1', 2500);
+            animateCounter('stat2', 12500);
+            animateCounter('stat3', 12);
+            animateCounter('stat4', 8);
+        }, 500);
     });
 </script>
 {% endblock %}

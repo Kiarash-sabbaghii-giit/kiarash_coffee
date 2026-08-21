@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .register-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 0 60px;
+        background: linear-gradient(135deg, #FEF1B4 0%, #FBF5C3 100%);
+    }
+
+    .register-card {
+        background: white;
+        border-radius: 25px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .register-card h2 {
+        color: #0A5C36;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .register-card .form-control {
+        border-radius: 12px;
+        padding: 12px 16px;
+        border: 2px solid #e0e0e0;
+        transition: all 0.3s ease;
+    }
+
+    .register-card .form-control:focus {
+        border-color: #225E2E;
+        box-shadow: 0 0 0 3px rgba(34, 94, 46, 0.15);
+    }
+
+    .register-card .form-label {
+        font-weight: 600;
+        color: #0A5C36;
+    }
+
+    .register-card .btn-register {
+        background: #225E2E;
+        color: #FEF1B4;
+        padding: 12px;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        border: none;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .register-card .btn-register:hover {
+        background: #0A5C36;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(34, 94, 46, 0.3);
+    }
+
+    .register-card .login-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .register-card .login-link a {
+        color: #225E2E;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .register-card .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .errorlist {
+        color: #dc3545;
+        font-size: 0.85rem;
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 0;
+    }
+</style>
+
+<section class="register-section">
+    <div class="register-card">
+        <h2><i class="fas fa-user-plus" style="color: #225E2E;"></i> Create Account</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Choose a username" required>
+                {{ form.username.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" name="first_name" class="form-control" placeholder="Your first name" required>
+                {{ form.first_name.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" name="last_name" class="form-control" placeholder="Your last name" required>
+                {{ form.last_name.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
+                {{ form.email.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <input type="text" name="phone_number" class="form-control" placeholder="0912 345 6789" required>
+                {{ form.phone_number.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Address</label>
+                <textarea name="address" class="form-control" rows="2" placeholder="Your full address" required></textarea>
+                {{ form.address.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password1" class="form-control" placeholder="Create a password" required>
+                {{ form.password1.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Confirm Password</label>
+                <input type="password" name="password2" class="form-control" placeholder="Confirm your password" required>
+                {{ form.password2.errors }}
+            </div>
+
+            <button type="submit" class="btn-register">
+                <i class="fas fa-user-plus me-2"></i> Register
+            </button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="{% url 'accounts:login' %}">Login here</a>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.from('.register-card', {
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out'
+        });
+    });
+</script>
+{% endblock %}

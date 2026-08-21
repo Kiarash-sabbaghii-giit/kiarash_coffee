@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .about-page {
+        padding-top: 120px;
+        padding-bottom: 60px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #FEF1B4 0%, #FBF5C3 100%);
+    }
+
+    .about-page h1 {
+        color: #0A5C36;
+        font-weight: 700;
+    }
+
+    .about-page .about-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .about-page .about-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    }
+
+    .about-page .about-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .about-page .about-card h4 {
+        color: #0A5C36;
+        font-weight: 600;
+    }
+</style>
+
+<section class="about-page">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-3">About Kiarash Cafe</h1>
+            <p class="fs-5" style="color: #225E2E;">Discover our story, our coffee, and our passion</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="about-card">
+                    <img src="{% static 'images/about1.png' %}" alt="Our Story">
+                    <h4><i class="fas fa-book-open" style="color: #225E2E;"></i> Our Story</h4>
+                    <p>Kiarash Cafe was born from a simple dream: to create a space where people could enjoy exceptional coffee in a warm, welcoming environment. Since our opening, we've been dedicated to serving the community with love and passion.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="about-card">
+                    <img src="{% static 'images/about2.png' %}" alt="Our Coffee">
+                    <h4><i class="fas fa-coffee" style="color: #225E2E;"></i> Our Coffee</h4>
+                    <p>We source our beans directly from the finest coffee farms around the world. Each batch is carefully roasted to perfection, ensuring every cup delivers the rich, smooth flavor that Kiarash Cafe is known for.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="about-card">
+                    <img src="{% static 'images/about3.png' %}" alt="Our Team">
+                    <h4><i class="fas fa-users" style="color: #225E2E;"></i> Our Team</h4>
+                    <p>Our team of passionate baristas and friendly staff are the heart of Kiarash Cafe. We're committed to providing exceptional service and making every visit a memorable experience for our customers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from('.about-card', {
+            scrollTrigger: { trigger: '.about-page', start: 'top 80%', toggleActions: 'play none none none' },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power2.out'
+        });
+    });
+</script>
+{% endblock %}

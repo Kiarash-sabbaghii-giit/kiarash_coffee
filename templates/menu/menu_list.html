@@ -6,7 +6,8 @@
 {% block content %}
 <style>
     .menu-section {
-        padding-top: 100px;
+        padding-top: 120px;
+        padding-bottom: 60px;
         min-height: 100vh;
         background: linear-gradient(135deg, #FEF1B4 0%, #FBF5C3 100%);
     }
@@ -14,10 +15,10 @@
     .menu-card {
         background: white;
         border-radius: 20px;
-        padding: 30px;
+        padding: 30px 20px;
         text-align: center;
         cursor: pointer;
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         box-shadow: 0 5px 20px rgba(0,0,0,0.05);
         text-decoration: none;
         display: block;
@@ -26,7 +27,7 @@
     }
 
     .menu-card:hover {
-        transform: translateY(-10px) scale(1.02);
+        transform: translateY(-8px);
         box-shadow: 0 20px 60px rgba(34, 94, 46, 0.2);
         background: #225E2E;
         color: #FEF1B4;
@@ -36,16 +37,31 @@
         font-size: 3rem;
         margin-bottom: 15px;
         color: #225E2E;
+        transition: all 0.3s ease;
     }
 
     .menu-card:hover i {
         color: #FEF1B4;
+        transform: scale(1.1);
     }
 
     .menu-card h3 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 600;
         margin-bottom: 10px;
+    }
+
+    .menu-card p {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        margin: 0;
+    }
+
+    @media (max-width: 768px) {
+        .menu-section { padding-top: 100px; }
+        .menu-card { padding: 20px 15px; }
+        .menu-card i { font-size: 2rem; }
+        .menu-card h3 { font-size: 1.1rem; }
     }
 </style>
 
@@ -62,7 +78,7 @@
                 <a href="{% url 'menu:menu_detail' category.name %}" class="menu-card">
                     <i class="{{ category.icon|default:'fas fa-utensils' }}"></i>
                     <h3>{{ category.persian_name }}</h3>
-                    <p style="font-size: 0.9rem; opacity: 0.8;">{{ category.description|default:'' }}</p>
+                    <p>{{ category.description|default:'' }}</p>
                 </a>
             </div>
             {% endfor %}
@@ -71,18 +87,24 @@
 </section>
 
 <script>
-    // GSAP Animation for menu cards
-    gsap.from('.menu-card', {
-        scrollTrigger: {
-            trigger: '.menu-section',
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power2.out'
+    document.addEventListener('DOMContentLoaded', function() {
+        // Menu cards hover animation
+        document.querySelectorAll('.menu-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    y: -8,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
     });
 </script>
 {% endblock %}

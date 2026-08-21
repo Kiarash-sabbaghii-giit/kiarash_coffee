@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .contact-page {
+        padding-top: 120px;
+        padding-bottom: 60px;
+        min-height: 100vh;
+        background: #0A5C36;
+    }
+
+    .contact-page h1 {
+        color: #FEF1B4;
+        font-weight: 700;
+    }
+
+    .contact-page .subtitle {
+        color: #FBF5C3;
+    }
+
+    .contact-page .contact-card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.2);
+        color: white;
+        height: 100%;
+    }
+
+    .contact-page .contact-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255,255,255,0.2);
+    }
+
+    .contact-page .contact-card i {
+        font-size: 3rem;
+        color: #FEF1B4;
+        margin-bottom: 20px;
+    }
+
+    .contact-page .contact-card h4 {
+        color: #FEF1B4;
+    }
+
+    .contact-page .social-links a {
+        color: white;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+    .contact-page .social-links a:hover {
+        color: #FEF1B4;
+        transform: scale(1.2) translateY(-5px);
+    }
+</style>
+
+<section class="contact-page">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-3">Contact Us</h1>
+            <p class="fs-5 subtitle">We'd love to hear from you</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>Visit Us</h4>
+                    <p>123 Coffee Street,<br>Tehran, Iran</p>
+                    <p><small>Open daily from 8:00 AM to 11:00 PM</small></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h4>Call Us</h4>
+                    <p>+98 21 1234 5678</p>
+                    <p>+98 912 345 6789</p>
+                    <p><small>We're here to help</small></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Email Us</h4>
+                    <p>info@kiarashcafe.com</p>
+                    <p>support@kiarashcafe.com</p>
+                    <p><small>We'll respond within 24 hours</small></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h3 style="color: #FEF1B4; margin-bottom: 20px;">Follow Us</h3>
+                <div class="social-links d-flex justify-content-center gap-4">
+                    <a href="#" class="fs-1"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="fs-1"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="fs-1"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="fs-1"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="fs-1"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.from('.contact-card', {
+            scrollTrigger: { trigger: '.contact-page', start: 'top 80%', toggleActions: 'play none none none' },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.social-links a', {
+            scale: 0,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.15,
+            ease: 'back.out(2)',
+            delay: 0.5
+        });
+    });
+</script>
+{% endblock %}
