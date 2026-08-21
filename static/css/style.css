@@ -1,0 +1,88 @@
+/* static/css/style.css */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #FEF1B4;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #225E2E;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0A5C36;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Navbar transition */
+.navbar {
+    transition: all 0.3s ease;
+}
+
+.navbar-brand img {
+    transition: all 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* Card animations */
+.hover-scale {
+    transition: all 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+/* Button styles */
+.btn-success-custom {
+    background: #225E2E;
+    color: #FEF1B4;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-success-custom:hover {
+    background: #0A5C36;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(34, 94, 46, 0.3);
+    color: #FEF1B4;
+}
+
+/* Loading spinner */
+.spinner {
+    border: 3px solid #FEF1B4;
+    border-top: 3px solid #225E2E;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Toast notifications */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+}

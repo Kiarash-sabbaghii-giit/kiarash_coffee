@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Menu - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .menu-section {
+        padding-top: 100px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #FEF1B4 0%, #FBF5C3 100%);
+    }
+
+    .menu-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        text-decoration: none;
+        display: block;
+        color: inherit;
+        height: 100%;
+    }
+
+    .menu-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(34, 94, 46, 0.2);
+        background: #225E2E;
+        color: #FEF1B4;
+    }
+
+    .menu-card i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #225E2E;
+    }
+
+    .menu-card:hover i {
+        color: #FEF1B4;
+    }
+
+    .menu-card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+</style>
+
+<section class="menu-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 class="display-3" style="color: #0A5C36;">Our Menu</h1>
+            <p class="fs-5" style="color: #225E2E;">Choose from our delicious selection</p>
+        </div>
+
+        <div class="row g-4">
+            {% for category in categories %}
+            <div class="col-md-3 col-sm-6">
+                <a href="{% url 'menu:menu_detail' category.name %}" class="menu-card">
+                    <i class="{{ category.icon|default:'fas fa-utensils' }}"></i>
+                    <h3>{{ category.persian_name }}</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">{{ category.description|default:'' }}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    // GSAP Animation for menu cards
+    gsap.from('.menu-card', {
+        scrollTrigger: {
+            trigger: '.menu-section',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out'
+    });
+</script>
+{% endblock %}

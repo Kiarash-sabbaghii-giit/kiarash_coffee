@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .hero-section {
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 2;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 3;
+        text-align: center;
+        color: white;
+    }
+
+    .hero-content h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        animation: fadeInDown 1.5s ease;
+    }
+
+    .btn-menu {
+        background: #225E2E;
+        color: #FEF1B4;
+        padding: 15px 50px;
+        border-radius: 50px;
+        font-size: 1.3rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        animation: fadeInUp 1.5s ease 0.5s both;
+    }
+
+    .btn-menu:hover {
+        transform: translateY(-5px) scale(1.05);
+        background: #306B34;
+        color: #FBF5C3;
+        box-shadow: 0 15px 40px rgba(34, 94, 46, 0.4);
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .section-about {
+        min-height: 100vh;
+        background: #FEF1B4;
+        padding: 80px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .section-contact {
+        min-height: 100vh;
+        background: #0A5C36;
+        padding: 80px 0;
+        display: flex;
+        align-items: center;
+        color: white;
+    }
+
+    .about-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .about-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .about-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .stats-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #FEF1B4;
+    }
+
+    .contact-card {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .contact-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255,255,255,0.2);
+    }
+
+    .contact-card i {
+        font-size: 3rem;
+        color: #FEF1B4;
+        margin-bottom: 20px;
+    }
+</style>
+
+<!-- Hero Section with Video -->
+<section class="hero-section">
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="{% static 'videos/cafe_video.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Welcome to Kiarash Cafe</h1>
+        <p class="fs-3">Experience the finest coffee &amp; treats</p>
+        <a href="{% url 'menu:menu_list' %}" class="btn-menu">
+            <i class="fas fa-utensils"></i> View Menu
+        </a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="section-about" id="about">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-4" style="color: #0A5C36;">About Us</h2>
+            <p class="fs-5" style="color: #225E2E;">Discover the story behind Kiarash Cafe</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="about-card">
+                    <img src="{% static 'images/about1.jpg' %}" alt="About 1">
+                    <h4 style="color: #0A5C36;">Our Story</h4>
+                    <p>Founded with a passion for quality coffee and warm hospitality.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="about-card">
+                    <img src="{% static 'images/about2.jpg' %}" alt="About 2">
+                    <h4 style="color: #0A5C36;">Our Coffee</h4>
+                    <p>Sourced from the finest beans, roasted to perfection daily.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="about-card">
+                    <img src="{% static 'images/about3.jpg' %}" alt="About 3">
+                    <h4 style="color: #0A5C36;">Our Team</h4>
+                    <p>Passionate baristas and friendly staff ready to serve you.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="row g-4 mt-5 text-center">
+            <div class="col-md-3 col-6">
+                <div class="stats-number" id="stat1">0</div>
+                <p style="color: #225E2E; font-weight: 600;">Happy Customers</p>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-number" id="stat2">0</div>
+                <p style="color: #225E2E; font-weight: 600;">Cups Sold</p>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-number" id="stat3">0</div>
+                <p style="color: #225E2E; font-weight: 600;">Years Experience</p>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stats-number" id="stat4">0</div>
+                <p style="color: #225E2E; font-weight: 600;">Awards Won</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section-contact" id="contact">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-4">Contact Us</h2>
+            <p class="fs-5" style="color: #FEF1B4;">Get in touch with us</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>Address</h4>
+                    <p>123 Coffee Street,<br>Tehran, Iran</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h4>Phone</h4>
+                    <p>+98 21 1234 5678</p>
+                    <p>+98 912 345 6789</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Email</h4>
+                    <p>info@kiarashcafe.com</p>
+                    <p>support@kiarashcafe.com</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <div class="d-flex justify-content-center gap-4">
+                    <a href="#" class="text-white fs-2"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white fs-2"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="text-white fs-2"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="text-white fs-2"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // GSAP Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // About Section Animation
+    gsap.from('.about-card', {
+        scrollTrigger: {
+            trigger: '.section-about',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.3
+    });
+
+    // Contact Section Animation
+    gsap.from('.contact-card', {
+        scrollTrigger: {
+            trigger: '.section-contact',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.3
+    });
+
+    // Statistic Counter Animation
+    function animateCounter(elementId, target, suffix = '') {
+        const element = document.getElementById(elementId);
+        let current = 0;
+        const increment = target / 50;
+        const interval = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(interval);
+            }
+            element.textContent = Math.floor(current) + suffix;
+        }, 30);
+    }
+
+    // Trigger stat counters
+    const statsTrigger = ScrollTrigger.create({
+        trigger: '.section-about',
+        start: 'top 70%',
+        once: true,
+        onEnter: () => {
+            animateCounter('stat1', 2500, '+');
+            animateCounter('stat2', 12500, '+');
+            animateCounter('stat3', 12, '+');
+            animateCounter('stat4', 8, '+');
+        }
+    });
+</script>
+{% endblock %}

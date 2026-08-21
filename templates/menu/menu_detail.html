@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.persian_name }} - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .menu-detail {
+        padding-top: 100px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #FBF5C3 0%, #FEF1B4 100%);
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        transition: all 0.4s ease;
+        height: 100%;
+    }
+
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(34, 94, 46, 0.15);
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .product-body {
+        padding: 20px;
+    }
+
+    .product-body h4 {
+        color: #0A5C36;
+        font-weight: 600;
+    }
+
+    .product-body .english-name {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .price-variant {
+        display: inline-block;
+        margin: 5px;
+        padding: 5px 15px;
+        background: #FEF1B4;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: #0A5C36;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .price-variant:hover {
+        background: #225E2E;
+        color: #FEF1B4;
+        transform: scale(1.05);
+    }
+
+    .price-variant.active {
+        border-color: #225E2E;
+        background: #225E2E;
+        color: #FEF1B4;
+    }
+
+    .add-to-cart-btn {
+        background: #225E2E;
+        color: #FEF1B4;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .add-to-cart-btn:hover {
+        background: #0A5C36;
+        transform: scale(1.02);
+    }
+
+    .product-price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #225E2E;
+        margin: 10px 0;
+    }
+</style>
+
+<section class="menu-detail">
+    <div class="container">
+        <div class="mb-4">
+            <a href="{% url 'menu:menu_list' %}" class="btn btn-outline-success">
+                <i class="fas fa-arrow-left"></i> Back to Menu
+            </a>
+        </div>
+
+        <div class="text-center mb-5">
+            <h1 class="display-3" style="color: #0A5C36;">{{ category.persian_name }}</h1>
+            <p class="fs-5" style="color: #225E2E;">{{ category.description|default:'' }}</p>
+        </div>
+
+        <div class="row g-4">
+            {% for product in products %}
+            <div class="col-md-4 col-sm-6">
+                <div class="product-card" data-product='{"name":"{{ product.persian_name }}","english":"{{ product.english_name }}","image":"{{ product.image_url }}"}'>
+                    <img src="{{ product.image_url|default:'/static/images/placeholder.jpg' }}" alt="{{ product.persian_name }}">
+                    <div class="product-body">
+                        <h4>{{ product.persian_name }}</h4>
+                        <p class="english-name">{{ product.english_name }}</p>
+                        <p style="font-size: 0.9rem; color: #6c757d;">{{ product.description|default:'' }}</p>
+
+                        <div class="price-variants mt-2">
+                            {% for variant in product.variants %}
+                            <span class="price-variant {% if forloop.first %}active{% endif %}"
+                                  data-price="{{ variant.price }}"
+                                  data-type="{{ variant.price_type }}">
+                                {{ variant.price_type|default:'Standard' }} - {{ variant.price }} تومان
+                            </span>
+                            {% empty %}
+                            <span class="price-variant active" data-price="{{ product.price }}" data-type="">
+                                {{ product.price|default:'0' }} تومان
+                            </span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2 mt-3">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="updateQuantity(-1)">-</button>
+                            <span class="quantity-display mx-2" style="font-weight: 600; min-width: 30px; text-align: center;">1</span>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="updateQuantity(1)">+</button>
+                            <input type="hidden" class="quantity-input" value="1">
+                        </div>
+
+                        <button class="add-to-cart-btn" onclick="addToCart(this)">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    // Price variant selection
+    document.querySelectorAll('.price-variant').forEach(el => {
+        el.addEventListener('click', function() {
+            const parent = this.closest('.price-variants');
+            parent.querySelectorAll('.price-variant').forEach(v => v.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Quantity control
+    function updateQuantity(change) {
+        const card = event.target.closest('.product-card');
+        const input = card.querySelector('.quantity-input');
+        const display = card.querySelector('.quantity-display');
+        let newValue = parseInt(input.value) + change;
+        if (newValue < 1) newValue = 1;
+        input.value = newValue;
+        display.textContent = newValue;
+    }
+
+    // Add to cart
+    function addToCart(button) {
+        const card = button.closest('.product-card');
+        const name = card.querySelector('h4').textContent;
+        const activePrice = card.querySelector('.price-variant.active');
+        const price = activePrice ? activePrice.dataset.price : card.querySelector('.price-variant')?.dataset?.price || '';
+        const type = activePrice ? activePrice.dataset.type : '';
+        const quantity = card.querySelector('.quantity-input').value;
+        const image = card.dataset.product ? JSON.parse(card.dataset.product).image : '';
+
+        // Show loading
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+        button.disabled = true;
+
+        // Send to server
+        fetch('{% url "menu:add_to_cart" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: new URLSearchParams({
+                'product_name': name,
+                'price': price,
+                'quantity': quantity,
+                'price_type': type,
+                'image_url': image
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            button.innerHTML = '<i class="fas fa-check"></i> Added!';
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+                button.disabled = false;
+            }, 2000);
+
+            // Update cart count
+            updateCartCount();
+        })
+        .catch(error => {
+            button.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+            setTimeout(() => {
+                button.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+                button.disabled = false;
+            }, 2000);
+        });
+    }
+
+    // Update cart count
+    function updateCartCount() {
+        fetch('{% url "menu:cart_count" %}')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('cart-count').textContent = data.count;
+        });
+    }
+
+    // GSAP Animation
+    gsap.from('.product-card', {
+        scrollTrigger: {
+            trigger: '.menu-detail',
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+        },
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out'
+    });
+</script>
+{% endblock %}
