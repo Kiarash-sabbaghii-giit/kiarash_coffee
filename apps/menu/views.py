@@ -9,7 +9,6 @@ from apps.orders.models import CartItem
 
 
 def menu_view(request):
-    """صفحه منو - نمایش تمام دسته‌بندی‌ها"""
     categories = Category.get_all_categories()
 
     if not categories:
@@ -32,8 +31,6 @@ def menu_view(request):
 
 
 def menu_detail(request, category_name):
-    """نمایش محصولات یک دسته‌بندی"""
-
     collection_mapping = {
         'hot_drinks': 'hot_drinks',
         'cold_drinks': 'cold_drinks',
@@ -81,7 +78,12 @@ def menu_detail(request, category_name):
 
 @login_required
 def add_to_cart(request):
-    """افزودن محصول به سبد خرید"""
+    print("=" * 50)
+    print("👉 add_to_cart CALLED!")
+    print(f"Method: {request.method}")
+    print(f"User: {request.user}")
+    print("=" * 50)
+
     if request.method == 'POST':
         product_name = request.POST.get('product_name')
         price = request.POST.get('price')
@@ -89,8 +91,13 @@ def add_to_cart(request):
         price_type = request.POST.get('price_type', '')
         image_url = request.POST.get('image_url', '')
 
-        if not price:
-            price = 0
+        print(f"Product: {product_name}")
+        print(f"Price: {price}")
+        print(f"Quantity: {quantity}")
+        print(f"Type: {price_type}")
+
+        if not product_name:
+            return JsonResponse({'status': 'error', 'message': 'Product name is required'})
 
         try:
             cart_item, created = CartItem.objects.get_or_create(
@@ -98,9 +105,9 @@ def add_to_cart(request):
                 product_name=product_name,
                 price_type=price_type,
                 defaults={
-                    'product_price': price,
+                    'product_price': price or 0,
                     'quantity': quantity,
-                    'image_url': image_url
+                    'image_url': image_url or ''
                 }
             )
 
@@ -112,23 +119,23 @@ def add_to_cart(request):
                 total=Sum('quantity')
             )['total'] or 0
 
+            print(f"✅ Added! Total: {total_count}")
+            print("=" * 50)
+
             return JsonResponse({
                 'status': 'success',
-                'message': 'Added to cart',
                 'cart_count': total_count
             })
         except Exception as e:
-            return JsonResponse({
-                'status': 'error',
-                'message': str(e)
-            })
+            print(f"❌ ERROR: {e}")
+            return JsonResponse({'status': 'error', 'message': str(e)})
 
+    print("❌ Not POST request")
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
 
 @login_required
 def get_cart_count(request):
-    """دریافت تعداد آیتم‌های سبد خرید"""
     count = CartItem.objects.filter(user=request.user).aggregate(
         total=Sum('quantity')
     )['total'] or 0

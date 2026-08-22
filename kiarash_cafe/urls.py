@@ -9,7 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.core.urls')),
     path('accounts/', include('apps.accounts.urls')),
-    path('menu/', include('apps.menu.urls')),
+    path('menu/', include('apps.menu.urls')),        # <-- این خط مهمه
     path('orders/', include('apps.orders.urls')),
 ]
 
