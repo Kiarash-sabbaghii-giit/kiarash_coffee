@@ -107,8 +107,8 @@ kiarash-coffe/
 Before running the project, make sure you have the following installed:
 
 * Python 3.14+
-* MongoDB running on `localhost:27017`
-* SQL Server running on `localhost\sqlserver2025`
+* MongoDB running on ...
+* SQL Server running on ...
 * Git
 
 ---
