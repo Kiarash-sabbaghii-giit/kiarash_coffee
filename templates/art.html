@@ -1,0 +1,745 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Art - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    /* =====================================================
+       ART PAGE — Kiarash Cafe
+    ===================================================== */
+
+    :root {
+        --cream: #FEF1B4;
+        --cream-soft: #FFF8E1;
+        --cream-deep: #F5E29A;
+        --forest: #0A5C36;
+        --forest-deep: #073D24;
+        --espresso: #2B1B12;
+        --gold: #B8862B;
+        --gold-soft: rgba(184, 134, 43, 0.35);
+    }
+
+    .art-page {
+        padding-top: 130px;
+        padding-bottom: 90px;
+        min-height: 100vh;
+        background: var(--cream);
+        background-image:
+            radial-gradient(circle at 8% 12%, rgba(10, 92, 54, 0.05) 0%, transparent 40%),
+            radial-gradient(circle at 92% 85%, rgba(184, 134, 43, 0.07) 0%, transparent 45%);
+        position: relative;
+        overflow: hidden;
+        font-family: 'Jost', sans-serif;
+    }
+
+    .art-page::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(43, 27, 18, 0.035) 1px, transparent 1px);
+        background-size: 3px 3px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .art-page .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+    }
+
+    /* ===== RING STAIN ===== */
+    .ring-stain {
+        position: absolute;
+        border-radius: 50%;
+        border: 1.5px solid var(--forest);
+        opacity: 0.10;
+        pointer-events: none;
+    }
+    .ring-stain.ring--lg { width: 260px; height: 260px; }
+    .ring-stain.ring--md { width: 150px; height: 150px; border-width: 1px; }
+    .ring-stain.ring--sm { width: 70px; height: 70px; border-width: 1px; opacity: 0.16; }
+
+    /* ===== HEADER ===== */
+    .art-header {
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+    }
+
+    .art-header .ring-stain.ring--lg {
+        top: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .art-header .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--gold);
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
+    .art-header .eyebrow::before,
+    .art-header .eyebrow::after {
+        content: '';
+        width: 26px;
+        height: 1px;
+        background: var(--gold);
+        opacity: 0.7;
+    }
+
+    .art-header h1 {
+        position: relative;
+        color: var(--espresso);
+        font-weight: 700;
+        font-size: 3.6rem;
+        font-family: 'Playfair Display', serif;
+        letter-spacing: 0.5px;
+        line-height: 1.1;
+    }
+
+    .art-header h1 em {
+        color: var(--forest);
+        font-style: italic;
+        font-weight: 600;
+    }
+
+    .art-header .divider {
+        width: 46px;
+        height: 2px;
+        background: var(--forest);
+        margin: 22px auto 18px;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .art-header .divider::after {
+        content: '✦';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--cream);
+        color: var(--gold);
+        font-size: 0.85rem;
+        padding: 0 10px;
+    }
+
+    .art-header .subtitle {
+        color: var(--espresso);
+        font-size: 1.15rem;
+        font-weight: 300;
+        opacity: 0.75;
+        font-style: italic;
+        font-family: 'Playfair Display', serif;
+    }
+
+    /* ===== ART GALLERY ===== */
+    .art-gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        margin-top: 40px;
+    }
+
+    /* ===== VIDEO CARDS ===== */
+    .video-card {
+        background: var(--cream-soft);
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid rgba(43, 27, 18, 0.10);
+        box-shadow: 0 10px 30px rgba(43, 27, 18, 0.06);
+        transition: all 0.45s cubic-bezier(.2,.7,.3,1);
+        position: relative;
+    }
+
+    .video-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--gold-soft);
+        box-shadow: 0 24px 50px rgba(43, 27, 18, 0.16);
+    }
+
+    .video-card .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        background: var(--espresso);
+    }
+
+    .video-card .video-wrapper video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(1.05);
+    }
+
+    .video-card .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(10, 92, 54, 0.05) 0%, rgba(10, 92, 54, 0.35) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.4s ease;
+        cursor: pointer;
+    }
+
+    .video-card:hover .video-overlay {
+        opacity: 1;
+    }
+
+    .video-card .video-overlay i {
+        font-size: 1.6rem;
+        color: var(--cream);
+        background: var(--forest);
+        width: 62px;
+        height: 62px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 22px rgba(10, 92, 54, 0.4);
+    }
+
+    .video-card .video-overlay i:hover {
+        transform: scale(1.08);
+        background: var(--forest-deep);
+    }
+
+    .video-card .video-caption {
+        padding: 18px 24px;
+        color: var(--espresso);
+        font-size: 0.95rem;
+        font-weight: 400;
+        letter-spacing: 0.3px;
+        text-align: center;
+        border-top: 1px solid rgba(43, 27, 18, 0.08);
+        font-style: italic;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .video-card .video-caption .mark {
+        color: var(--gold);
+        font-style: normal;
+        font-weight: 600;
+        margin: 0 6px;
+    }
+
+    /* ===== IMAGE CARD ===== */
+    .image-card {
+        background: transparent;
+        border-radius: 18px;
+        overflow: hidden;
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: 1.6fr 0.8fr;
+        gap: 0;
+        box-shadow: 0 10px 30px rgba(43, 27, 18, 0.06);
+        transition: all 0.45s cubic-bezier(.2,.7,.3,1);
+    }
+
+    .image-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 24px 50px rgba(43, 27, 18, 0.14);
+    }
+
+    /* سمت چپ: ۲ عکس افقی زیر هم - پر کردن کامل فضا */
+    .image-card .left-column {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        gap: 0;
+        background: var(--espresso);
+        height: 100%;
+    }
+
+    .image-card .left-column .image-item {
+        position: relative;
+        overflow: hidden;
+        background: var(--espresso);
+        height: 100%;
+        min-height: 0;
+    }
+
+    .image-card .left-column .image-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.7s cubic-bezier(.2,.7,.3,1);
+        filter: saturate(1.02) contrast(1.02);
+        display: block;
+    }
+
+    .image-card .left-column .image-item:hover img {
+        transform: scale(1.06);
+    }
+
+    /* سمت راست: ۱ عکس عمودی - هم ارتفاع با کل سمت چپ */
+    .image-card .right-column {
+        background: var(--espresso);
+        height: 100%;
+    }
+
+    .image-card .right-column .image-item {
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        background: var(--espresso);
+    }
+
+    .image-card .right-column .image-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.7s cubic-bezier(.2,.7,.3,1);
+        filter: saturate(1.02) contrast(1.02);
+        display: block;
+    }
+
+    .image-card .right-column .image-item:hover img {
+        transform: scale(1.06);
+    }
+
+    /* ===== OVERLAY ===== */
+    .image-card .image-item .image-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background: linear-gradient(transparent, rgba(10, 92, 54, 0.85));
+        color: var(--cream);
+        transform: translateY(100%);
+        transition: all 0.4s ease;
+    }
+
+    .image-card .image-item:hover .image-overlay {
+        transform: translateY(0);
+    }
+
+    .image-card .image-item .image-overlay h5 {
+        font-weight: 600;
+        margin-bottom: 3px;
+        font-size: 1.1rem;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .image-card .image-item .image-overlay p {
+        font-size: 0.85rem;
+        opacity: 0.85;
+        margin: 0;
+        font-weight: 300;
+    }
+
+    /* ===== ART TEXT SECTION ===== */
+    .art-text-section {
+        margin-top: 56px;
+        background: var(--forest);
+        border-radius: 20px;
+        padding: 52px 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .art-text-section .ring-stain {
+        border-color: var(--cream);
+        opacity: 0.08;
+    }
+
+    .art-text-section .ring-stain.ring--lg {
+        top: -90px;
+        right: -70px;
+    }
+
+    .art-text-section .ring-stain.ring--md {
+        bottom: -50px;
+        left: -30px;
+    }
+
+    .art-text-section .text-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    .art-text-section .text-content .quote-mark {
+        color: var(--gold);
+        font-size: 2.2rem;
+        opacity: 0.85;
+        display: block;
+        margin-bottom: 4px;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .art-text-section .text-content h3 {
+        color: var(--cream);
+        font-weight: 600;
+        font-size: 1.7rem;
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 22px;
+        letter-spacing: 0.3px;
+    }
+
+    .art-text-section .text-content .rotating-text {
+        color: var(--cream-soft);
+        font-size: 1.35rem;
+        font-weight: 300;
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-style: italic;
+        font-family: 'Playfair Display', serif;
+        line-height: 1.7;
+        padding: 0 20px;
+    }
+
+    .art-text-section .text-content .rotating-text .highlight {
+        color: var(--gold);
+        font-weight: 600;
+        font-style: normal;
+        font-family: 'Jost', sans-serif;
+        font-size: 1rem;
+        margin: 0 8px;
+        vertical-align: middle;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+        .art-gallery {
+            grid-template-columns: 1fr;
+        }
+
+        .image-card {
+            grid-template-columns: 1fr 0.6fr;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .art-page {
+            padding-top: 100px;
+        }
+
+        .art-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .art-header .subtitle {
+            font-size: 1rem;
+        }
+
+        .image-card {
+            grid-template-columns: 1fr;
+        }
+
+        .image-card .right-column .image-item {
+            height: 300px;
+        }
+
+        .art-text-section {
+            padding: 36px 24px;
+        }
+
+        .art-text-section .text-content h3 {
+            font-size: 1.4rem;
+        }
+
+        .art-text-section .text-content .rotating-text {
+            font-size: 1.05rem;
+            min-height: 60px;
+        }
+
+        .video-card .video-caption {
+            font-size: 0.88rem;
+            padding: 14px 18px;
+        }
+
+        .ring-stain.ring--lg { width: 170px; height: 170px; }
+    }
+
+    @media (max-width: 576px) {
+        .art-header h1 {
+            font-size: 2rem;
+        }
+
+        .art-header .eyebrow {
+            letter-spacing: 3px;
+            font-size: 0.68rem;
+        }
+
+        .art-gallery {
+            gap: 20px;
+        }
+
+        .video-card .video-overlay i {
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
+        }
+
+        .art-text-section .text-content .rotating-text {
+            font-size: 0.95rem;
+            min-height: 90px;
+        }
+
+        .image-card .right-column .image-item {
+            height: 250px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .video-card, .image-card, .image-card .image-item img,
+        .video-card .video-overlay i {
+            transition: none !important;
+        }
+    }
+</style>
+
+<section class="art-page">
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <div class="art-header">
+            <span class="ring-stain ring--lg"></span>
+            <span class="eyebrow">Kiarash Cafe</span>
+            <h1>The <em>Art</em> of Kiarash</h1>
+            <div class="divider"></div>
+            <p class="subtitle">Where coffee meets creativity — a visual journey through our craft</p>
+        </div>
+
+        <!-- ===== ART GALLERY ===== -->
+        <div class="art-gallery">
+
+            <!-- Video Left -->
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <video id="videoLeft" muted loop playsinline>
+                        <source src="{% static 'videos/b.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay" onclick="toggleVideo('videoLeft')">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="video-caption">
+                    <span class="mark">✦</span>The art of brewing — every cup tells a story<span class="mark">✦</span>
+                </div>
+            </div>
+
+            <!-- Video Right -->
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <video id="videoRight" muted loop playsinline">
+                        <source src="{% static 'videos/b1.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay" onclick="toggleVideo('videoRight')">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="video-caption">
+                    <span class="mark">✦</span>Latte art &mdash; where passion meets precision<span class="mark">✦</span>
+                </div>
+            </div>
+
+            <!-- ===== IMAGE CARD ===== -->
+            <div class="image-card">
+                <!-- سمت چپ: ۲ عکس افقی زیر هم -->
+                <div class="left-column">
+                    <div class="image-item">
+                        <img src="{% static 'images/s.png' %}" alt="Art 1" onerror="this.src='https://via.placeholder.com/800x600/0A5C36/FEF1B4?text=Art+1'">
+                        <div class="image-overlay">
+                            <h5>Art of Presentation</h5>
+                            <p>Every detail matters</p>
+                        </div>
+                    </div>
+                    <div class="image-item">
+                        <img src="{% static 'images/s1.png' %}" alt="Art 2" onerror="this.src='https://via.placeholder.com/800x600/0A5C36/FEF1B4?text=Art+2'">
+                        <div class="image-overlay">
+                            <h5>Art of Flavor</h5>
+                            <p>Perfection in every sip</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- سمت راست: ۱ عکس عمودی -->
+                <div class="right-column">
+                    <div class="image-item">
+                        <img src="{% static 'images/t.jpg' %}" alt="Vertical Art" onerror="this.src='https://via.placeholder.com/500x800/0A5C36/FEF1B4?text=Vertical'">
+                        <div class="image-overlay">
+                            <h5>Art of Craft</h5>
+                            <p>Where passion meets perfection</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== ART TEXT ===== -->
+        <div class="art-text-section">
+            <span class="ring-stain ring--lg"></span>
+            <span class="ring-stain ring--md"></span>
+            <div class="text-content">
+                <span class="quote-mark"><i class="fas fa-quote-left"></i></span>
+                <h3>Art in Every Cup</h3>
+                <div class="rotating-text" id="rotatingText">
+                    <span class="highlight">✦</span> Coffee is not just a drink — it's an art form that we perfect every single day <span class="highlight">✦</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    // ===== VIDEO CONTROLS =====
+    function toggleVideo(videoId) {
+        const video = document.getElementById(videoId);
+        const overlay = video.closest('.video-wrapper').querySelector('.video-overlay');
+        const icon = overlay.querySelector('i');
+
+        if (video.paused) {
+            video.play();
+            icon.className = 'fas fa-pause';
+        } else {
+            video.pause();
+            icon.className = 'fas fa-play';
+        }
+    }
+
+    // ===== ROTATING TEXT =====
+    const texts = [
+        '<span class="highlight">✦</span> Coffee is not just a drink — it\'s an art form that we perfect every single day <span class="highlight">✦</span>',
+        '<span class="highlight">✦</span> From bean to cup, every step is a masterpiece of craftsmanship <span class="highlight">✦</span>',
+        '<span class="highlight">✦</span> Our baristas are artists — the espresso machine is their canvas <span class="highlight">✦</span>',
+        '<span class="highlight">✦</span> We believe in the beauty of simplicity and the art of detail <span class="highlight">✦</span>',
+        '<span class="highlight">✦</span> Every cup tells a story — this is the art of Kiarash Cafe <span class="highlight">✦</span>'
+    ];
+
+    let currentIndex = 0;
+    const textElement = document.getElementById('rotatingText');
+
+    if (textElement && typeof gsap !== 'undefined') {
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % texts.length;
+            gsap.to(textElement, {
+                opacity: 0,
+                duration: 0.5,
+                ease: 'power2.out',
+                onComplete: () => {
+                    textElement.innerHTML = texts[currentIndex];
+                    gsap.to(textElement, {
+                        opacity: 1,
+                        duration: 0.6,
+                        ease: 'power2.in'
+                    });
+                }
+            });
+        }, 4500);
+    }
+
+    // ===== GSAP ANIMATIONS =====
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof gsap === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from('.art-header .eyebrow, .art-header h1, .art-header .divider, .art-header .subtitle', {
+            y: -30,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.12,
+            ease: 'power2.out',
+            delay: 0.15
+        });
+
+        gsap.from('.video-card', {
+            scrollTrigger: {
+                trigger: '.art-gallery',
+                start: 'top 82%',
+                toggleActions: 'play none none none'
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.image-card', {
+            scrollTrigger: {
+                trigger: '.image-card',
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+            },
+            y: 40,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.image-item', {
+            scrollTrigger: {
+                trigger: '.image-card',
+                start: 'top 85%',
+                toggleActions: 'play none none none'
+            },
+            scale: 0.95,
+            opacity: 0,
+            duration: 0.7,
+            stagger: 0.15,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.art-text-section', {
+            scrollTrigger: {
+                trigger: '.art-text-section',
+                start: 'top 82%',
+                toggleActions: 'play none none none'
+            },
+            y: 40,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.out'
+        });
+    });
+
+    // ===== AUTO PLAY VIDEOS ON SCROLL =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const videos = document.querySelectorAll('.video-wrapper video');
+
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        videos.forEach(video => {
+            videoObserver.observe(video);
+        });
+    });
+</script>
+{% endblock %}

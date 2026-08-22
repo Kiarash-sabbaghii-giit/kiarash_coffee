@@ -5,6 +5,7 @@
 
 {% block content %}
 <style>
+    /* ===== HERO SECTION - سبز ===== */
     .hero-section {
         height: 100vh;
         position: relative;
@@ -12,6 +13,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        background: #0A5C36;
     }
 
     .hero-video {
@@ -24,19 +26,9 @@
         z-index: 1;
     }
 
-    .hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.45);
-        z-index: 2;
-    }
-
     .hero-content {
         position: relative;
-        z-index: 3;
+        z-index: 2;
         text-align: center;
         color: white;
     }
@@ -44,20 +36,20 @@
     .hero-content h1 {
         font-size: 4.5rem;
         font-weight: 700;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         margin-bottom: 20px;
     }
 
     .hero-content p {
         font-size: 1.5rem;
         font-weight: 300;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         margin-bottom: 30px;
     }
 
     .btn-menu {
-        background: #225E2E;
-        color: #FEF1B4;
+        background: #FEF1B4;
+        color: #0A5C36;
         padding: 18px 60px;
         border-radius: 50px;
         font-size: 1.3rem;
@@ -67,16 +59,14 @@
         text-decoration: none;
         display: inline-block;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        border: 2px solid transparent;
         cursor: pointer;
     }
 
     .btn-menu:hover {
-        background: #306B34;
-        color: #FBF5C3;
+        background: #FBF5C3;
+        color: #0A5C36;
         transform: scale(1.05);
-        border-color: #FEF1B4;
-        box-shadow: 0 15px 40px rgba(34, 94, 46, 0.4);
+        box-shadow: 0 15px 40px rgba(254, 241, 180, 0.4);
     }
 
     .btn-menu i {
@@ -88,6 +78,7 @@
         transform: scale(1.1);
     }
 
+    /* ===== ABOUT SECTION - کرم ===== */
     .section-about {
         min-height: 100vh;
         background: #FEF1B4;
@@ -96,13 +87,12 @@
         align-items: center;
     }
 
-    .section-contact {
-        min-height: 100vh;
-        background: #0A5C36;
-        padding: 80px 0;
-        display: flex;
-        align-items: center;
-        color: white;
+    .section-about h2 {
+        color: #0A5C36;
+    }
+
+    .section-about .subtitle {
+        color: #225E2E;
     }
 
     .about-card {
@@ -136,6 +126,10 @@
         color: #0A5C36;
     }
 
+    .about-card p {
+        color: #333;
+    }
+
     .stats-number {
         font-size: 3rem;
         font-weight: 700;
@@ -148,30 +142,281 @@
         color: #225E2E;
     }
 
+    .stats-label {
+        color: #225E2E;
+        font-weight: 600;
+    }
+
+    /* ===== ART SECTION - سبز (زیبا شده) ===== */
+    .section-art {
+        min-height: 100vh;
+        background: #0A5C36;
+        padding: 80px 0;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .section-art::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: rgba(254, 241, 180, 0.03);
+        border-radius: 50%;
+    }
+
+    .section-art::after {
+        content: '';
+        position: absolute;
+        bottom: -20%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: rgba(254, 241, 180, 0.02);
+        border-radius: 50%;
+    }
+
+    .section-art h2 {
+        color: #FEF1B4;
+        font-weight: 700;
+        font-size: 3rem;
+        font-family: 'Georgia', serif;
+        letter-spacing: 2px;
+    }
+
+    .section-art h2 i {
+        color: #FBF5C3;
+        margin-right: 10px;
+    }
+
+    .section-art .subtitle {
+        color: #FBF5C3;
+        font-size: 1.1rem;
+        opacity: 0.85;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .section-art .divider {
+        width: 80px;
+        height: 3px;
+        background: #FEF1B4;
+        margin: 15px auto;
+        border-radius: 10px;
+    }
+
+    /* Art Gallery Grid */
+    .art-gallery {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .art-item {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(254, 241, 180, 0.15);
+        transition: all 0.5s ease;
+        position: relative;
+        background: rgba(255, 255, 255, 0.05);
+        aspect-ratio: 4/3;
+    }
+
+    .art-item:hover {
+        transform: translateY(-10px) scale(1.02);
+        border-color: rgba(254, 241, 180, 0.4);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .art-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.6s ease;
+    }
+
+    .art-item:hover img {
+        transform: scale(1.08);
+    }
+
+    .art-item .art-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 25px 20px 20px;
+        background: linear-gradient(transparent, rgba(10, 92, 54, 0.9));
+        color: #FEF1B4;
+        transform: translateY(100%);
+        transition: all 0.4s ease;
+    }
+
+    .art-item:hover .art-overlay {
+        transform: translateY(0);
+    }
+
+    .art-item .art-overlay h4 {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 3px;
+        color: #FEF1B4;
+    }
+
+    .art-item .art-overlay p {
+        font-size: 0.85rem;
+        opacity: 0.8;
+        margin: 0;
+        color: #FBF5C3;
+    }
+
+    /* Video items */
+    .art-item.video-item {
+        position: relative;
+        aspect-ratio: 4/3;
+        background: #1a1a1a;
+    }
+
+    .art-item.video-item video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .art-item.video-item .play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        background: rgba(254, 241, 180, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #FEF1B4;
+        font-size: 1.5rem;
+        backdrop-filter: blur(5px);
+        border: 2px solid rgba(254, 241, 180, 0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .art-item.video-item:hover .play-icon {
+        background: #FEF1B4;
+        color: #0A5C36;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .art-item.video-item .video-overlay-text {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        color: #FEF1B4;
+        font-size: 0.85rem;
+        opacity: 0.7;
+        text-align: center;
+        text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    }
+
+    .btn-art {
+        background: #FEF1B4;
+        color: #0A5C36;
+        padding: 14px 45px;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 35px;
+    }
+
+    .btn-art:hover {
+        background: #FBF5C3;
+        color: #0A5C36;
+        transform: scale(1.05);
+        box-shadow: 0 10px 40px rgba(254, 241, 180, 0.3);
+    }
+
+    /* ===== CONTACT SECTION - کرم ===== */
+    .section-contact {
+        min-height: 100vh;
+        background: #FEF1B4;
+        padding: 80px 0;
+        display: flex;
+        align-items: center;
+        color: #0A5C36;
+    }
+
+    .section-contact h2 {
+        color: #0A5C36;
+    }
+
+    .section-contact .subtitle {
+        color: #225E2E;
+    }
+
     .contact-card {
-        background: rgba(255,255,255,0.1);
-        backdrop-filter: blur(10px);
+        background: white;
         border-radius: 20px;
         padding: 30px;
         text-align: center;
         transition: all 0.3s ease;
-        border: 1px solid rgba(255,255,255,0.2);
+        border: 1px solid #e8e8e8;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        height: 100%;
     }
 
     .contact-card:hover {
         transform: translateY(-8px);
-        background: rgba(255,255,255,0.2);
+        box-shadow: 0 15px 50px rgba(10, 92, 54, 0.12);
+        border-color: #225E2E;
     }
 
     .contact-card i {
         font-size: 3rem;
-        color: #FEF1B4;
+        color: #225E2E;
         margin-bottom: 20px;
         transition: all 0.3s ease;
     }
 
     .contact-card:hover i {
         transform: scale(1.1);
+        color: #0A5C36;
+    }
+
+    .contact-card h4 {
+        color: #0A5C36;
+    }
+
+    .contact-card p {
+        color: #444;
+    }
+
+    .social-link {
+        transition: all 0.3s ease;
+        display: inline-block;
+        color: #0A5C36 !important;
+    }
+
+    .social-link:hover {
+        transform: scale(1.2);
+        color: #225E2E !important;
+    }
+
+    @media (max-width: 992px) {
+        .art-gallery {
+            grid-template-columns: 1fr 1fr;
+        }
     }
 
     @media (max-width: 768px) {
@@ -179,16 +424,21 @@
         .hero-content p { font-size: 1.2rem; }
         .btn-menu { padding: 14px 40px; font-size: 1.1rem; }
         .stats-number { font-size: 2rem; }
+        .section-art h2 { font-size: 2.2rem; }
+        .art-gallery {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .art-item { aspect-ratio: 16/10; }
     }
 </style>
 
-<!-- Hero Section -->
+<!-- ===== HERO SECTION - سبز (بدون افکت) ===== -->
 <section class="hero-section" id="hero">
     <video class="hero-video" autoplay muted loop playsinline>
         <source src="{% static 'videos/cafe_video.mp4' %}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-    <div class="hero-overlay"></div>
     <div class="hero-content">
         <h1>Welcome to Kiarash Cafe</h1>
         <p>Experience the finest coffee &amp; treats</p>
@@ -198,32 +448,32 @@
     </div>
 </section>
 
-<!-- About Section -->
+<!-- ===== ABOUT SECTION - کرم ===== -->
 <section class="section-about" id="about">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="display-4" style="color: #0A5C36;">About Us</h2>
-            <p class="fs-5" style="color: #225E2E;">Discover the story behind Kiarash Cafe</p>
+            <h2 class="display-4">About Us</h2>
+            <p class="fs-5 subtitle">Discover the story behind Kiarash Cafe</p>
         </div>
 
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about1.png' %}" alt="About 1">
+                    <img src="{% static 'images/about1.png' %}" alt="About 1" onerror="this.src='https://via.placeholder.com/400x250/FEF1B4/0A5C36?text=Our+Story'">
                     <h4>Our Story</h4>
                     <p>Founded with a passion for quality coffee and warm hospitality.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about2.png' %}" alt="About 2">
+                    <img src="{% static 'images/about2.png' %}" alt="About 2" onerror="this.src='https://via.placeholder.com/400x250/FEF1B4/0A5C36?text=Our+Coffee'">
                     <h4>Our Coffee</h4>
                     <p>Sourced from the finest beans, roasted to perfection daily.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about3.png' %}" alt="About 3">
+                    <img src="{% static 'images/about3.png' %}" alt="About 3" onerror="this.src='https://via.placeholder.com/400x250/FEF1B4/0A5C36?text=Our+Team'">
                     <h4>Our Team</h4>
                     <p>Passionate baristas and friendly staff ready to serve you.</p>
                 </div>
@@ -233,30 +483,103 @@
         <div class="row g-4 mt-5 text-center">
             <div class="col-md-3 col-6">
                 <div class="stats-number" id="stat1">0</div>
-                <p style="color: #225E2E; font-weight: 600;">Happy Customers</p>
+                <p class="stats-label">Happy Customers</p>
             </div>
             <div class="col-md-3 col-6">
                 <div class="stats-number" id="stat2">0</div>
-                <p style="color: #225E2E; font-weight: 600;">Cups Sold</p>
+                <p class="stats-label">Cups Sold</p>
             </div>
             <div class="col-md-3 col-6">
                 <div class="stats-number" id="stat3">0</div>
-                <p style="color: #225E2E; font-weight: 600;">Years Experience</p>
+                <p class="stats-label">Years Experience</p>
             </div>
             <div class="col-md-3 col-6">
                 <div class="stats-number" id="stat4">0</div>
-                <p style="color: #225E2E; font-weight: 600;">Awards Won</p>
+                <p class="stats-label">Awards Won</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Contact Section -->
+<!-- ===== ART SECTION - سبز (زیبا با عکس و ویدیو) ===== -->
+<section class="section-art" id="art">
+    <div class="container">
+        <h2><i class="fas fa-palette"></i> Art of Kiarash</h2>
+        <div class="divider"></div>
+        <p class="subtitle">Where coffee meets creativity — a visual journey through our craft</p>
+
+        <div class="art-gallery">
+            <!-- ویدیو سمت چپ -->
+            <div class="art-item video-item">
+                <video muted loop playsinline id="artVideo1">
+                    <source src="{% static 'videos/b.mp4' %}" type="video/mp4">
+                </video>
+                <div class="play-icon" onclick="toggleArtVideo('artVideo1')">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="video-overlay-text">✦ The Art of Brewing ✦</div>
+            </div>
+
+            <!-- عکس وسط -->
+            <div class="art-item">
+                <img src="{% static 'images/s.png' %}" alt="Art 1" onerror="this.src='https://via.placeholder.com/600x450/FEF1B4/0A5C36?text=Art+1'">
+                <div class="art-overlay">
+                    <h4>Art of Presentation</h4>
+                    <p>Every detail matters</p>
+                </div>
+            </div>
+
+            <!-- ویدیو سمت راست -->
+            <div class="art-item video-item">
+                <video muted loop playsinline id="artVideo2">
+                    <source src="{% static 'videos/b1.mp4' %}" type="video/mp4">
+                </video>
+                <div class="play-icon" onclick="toggleArtVideo('artVideo2')">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="video-overlay-text">✦ Latte Art in Motion ✦</div>
+            </div>
+
+            <!-- عکس دوم (ردیف دوم) -->
+            <div class="art-item">
+                <img src="{% static 'images/s1.png' %}" alt="Art 2" onerror="this.src='https://via.placeholder.com/600x450/FEF1B4/0A5C36?text=Art+2'">
+                <div class="art-overlay">
+                    <h4>Art of Flavor</h4>
+                    <p>Perfection in every sip</p>
+                </div>
+            </div>
+
+            <!-- عکس سوم -->
+            <div class="art-item">
+                <img src="{% static 'images/about1.png' %}" alt="Art 3" onerror="this.src='https://via.placeholder.com/600x450/FEF1B4/0A5C36?text=Art+3'">
+                <div class="art-overlay">
+                    <h4>Our Creative Space</h4>
+                    <p>Where coffee meets art</p>
+                </div>
+            </div>
+
+            <!-- عکس چهارم -->
+            <div class="art-item">
+                <img src="{% static 'images/about2.png' %}" alt="Art 4" onerror="this.src='https://via.placeholder.com/600x450/FEF1B4/0A5C36?text=Art+4'">
+                <div class="art-overlay">
+                    <h4>Passion in Every Cup</h4>
+                    <p>Handcrafted with love</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="{% url 'core:art' %}" class="btn-art">
+            <i class="fas fa-palette"></i> Explore Full Gallery
+        </a>
+    </div>
+</section>
+
+<!-- ===== CONTACT SECTION - کرم ===== -->
 <section class="section-contact" id="contact">
     <div class="container">
         <div class="text-center mb-5">
             <h2 class="display-4">Contact Us</h2>
-            <p class="fs-5" style="color: #FEF1B4;">Get in touch with us</p>
+            <p class="fs-5 subtitle">Get in touch with us</p>
         </div>
 
         <div class="row g-4">
@@ -264,7 +587,7 @@
                 <div class="contact-card">
                     <i class="fas fa-map-marker-alt"></i>
                     <h4>Address</h4>
-                    <p>123 Coffee Street,<br>Tehran, Iran</p>
+                    <p>valiasr Street,<br>Tehran, Iran</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -288,10 +611,12 @@
         <div class="row mt-5">
             <div class="col-12 text-center">
                 <div class="d-flex justify-content-center gap-4">
-                    <a href="#" class="text-white fs-2 social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-white fs-2 social-link"><i class="fab fa-telegram"></i></a>
-                    <a href="#" class="text-white fs-2 social-link"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" class="text-white fs-2 social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="fs-2 social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="fs-2 social-link"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="fs-2 social-link"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="fs-2 social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="fs-2 social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="fs-2 social-link"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
         </div>
@@ -299,84 +624,102 @@
 </section>
 
 <script>
-    // ===== HOVER ANIMATIONS WITH GSAP =====
     document.addEventListener('DOMContentLoaded', function() {
-        // Menu button hover
+        // ===== TOGGLE ART VIDEOS =====
+        window.toggleArtVideo = function(videoId) {
+            const video = document.getElementById(videoId);
+            const parent = video.closest('.art-item');
+            const icon = parent.querySelector('.play-icon i');
+
+            if (video.paused) {
+                video.play();
+                icon.className = 'fas fa-pause';
+            } else {
+                video.pause();
+                icon.className = 'fas fa-play';
+            }
+        };
+
+        // ===== AUTO PLAY ART VIDEOS ON SCROLL =====
+        const artVideos = document.querySelectorAll('.art-item video');
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.3 });
+
+        artVideos.forEach(video => {
+            videoObserver.observe(video);
+        });
+
+        // ===== HERO BUTTON HOVER =====
         const menuBtn = document.querySelector('.btn-menu');
         if (menuBtn) {
             menuBtn.addEventListener('mouseenter', function() {
-                gsap.to(this, {
-                    scale: 1.05,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                gsap.to(this, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
             });
             menuBtn.addEventListener('mouseleave', function() {
-                gsap.to(this, {
-                    scale: 1,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                gsap.to(this, { scale: 1, duration: 0.3, ease: 'power2.out' });
             });
         }
 
-        // About cards hover
+        // ===== ABOUT CARDS HOVER =====
         document.querySelectorAll('.about-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                gsap.to(this, {
-                    y: -8,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                gsap.to(this, { y: -8, duration: 0.3, ease: 'power2.out' });
             });
             card.addEventListener('mouseleave', function() {
-                gsap.to(this, {
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                gsap.to(this, { y: 0, duration: 0.3, ease: 'power2.out' });
             });
         });
 
-        // Contact cards hover
+        // ===== ART ITEMS HOVER =====
+        document.querySelectorAll('.art-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                gsap.to(this, { y: -10, duration: 0.3, ease: 'power2.out' });
+            });
+            item.addEventListener('mouseleave', function() {
+                gsap.to(this, { y: 0, duration: 0.3, ease: 'power2.out' });
+            });
+        });
+
+        // ===== ART BUTTON HOVER =====
+        const artBtn = document.querySelector('.btn-art');
+        if (artBtn) {
+            artBtn.addEventListener('mouseenter', function() {
+                gsap.to(this, { scale: 1.05, duration: 0.3, ease: 'power2.out' });
+            });
+            artBtn.addEventListener('mouseleave', function() {
+                gsap.to(this, { scale: 1, duration: 0.3, ease: 'power2.out' });
+            });
+        }
+
+        // ===== CONTACT CARDS HOVER =====
         document.querySelectorAll('.contact-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                gsap.to(this, {
-                    y: -8,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                gsap.to(this, { y: -8, duration: 0.3, ease: 'power2.out' });
             });
             card.addEventListener('mouseleave', function() {
-                gsap.to(this, {
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                gsap.to(this, { y: 0, duration: 0.3, ease: 'power2.out' });
             });
         });
 
-        // Social links hover
+        // ===== SOCIAL LINKS HOVER =====
         document.querySelectorAll('.social-link').forEach(link => {
             link.addEventListener('mouseenter', function() {
-                gsap.to(this, {
-                    scale: 1.2,
-                    color: '#FEF1B4',
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                gsap.to(this, { scale: 1.2, duration: 0.3, ease: 'power2.out' });
             });
             link.addEventListener('mouseleave', function() {
-                gsap.to(this, {
-                    scale: 1,
-                    color: '#ffffff',
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+                gsap.to(this, { scale: 1, duration: 0.3, ease: 'power2.out' });
             });
         });
 
-        // Statistics counter with GSAP
+        // ===== STATISTICS COUNTER =====
         function animateCounter(id, target) {
             const el = document.getElementById(id);
             if (!el) return;
@@ -389,7 +732,6 @@
             }, 30);
         }
 
-        // Start counters when page loads
         setTimeout(() => {
             animateCounter('stat1', 2500);
             animateCounter('stat2', 12500);

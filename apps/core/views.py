@@ -19,6 +19,10 @@ def contact(request):
     """صفحه تماس با ما - نمایش اطلاعات تماس"""
     return render(request, 'contact.html')
 
+def art(request):
+    """صفحه Art - نمایش ویدیوها و عکس‌های هنری"""
+    return render(request, 'art.html')
+
 
 def menu_view(request):
     """صفحه منو - نمایش تمام دسته‌بندی‌ها"""

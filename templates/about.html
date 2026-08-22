@@ -5,73 +5,636 @@
 
 {% block content %}
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Outfit:wght@400;500;600;700&display=swap');
+
+    :root {
+        --pine: #0A5C36;
+        --forest: #225E2E;
+        --cream: #FEF1B4;
+        --paper: #FFFDF6;
+        --roast: #A8632E;
+        --ink: #2B2A24;
+        --muted: #6B6A60;
+    }
+
+    /* ===== ABOUT PAGE ===== */
     .about-page {
         padding-top: 120px;
-        padding-bottom: 60px;
+        padding-bottom: 70px;
         min-height: 100vh;
-        background: linear-gradient(135deg, #FEF1B4 0%, #FBF5C3 100%);
+        background: var(--cream);
+        position: relative;
+        overflow: hidden;
+        font-family: 'Outfit', sans-serif;
+        color: var(--ink);
     }
 
-    .about-page h1 {
-        color: #0A5C36;
-        font-weight: 700;
+    .about-page::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        right: -15%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(10, 92, 54, 0.05), transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
     }
 
-    .about-page .about-card {
-        background: white;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-        transition: all 0.3s ease;
+    .about-page::after {
+        content: '';
+        position: absolute;
+        bottom: -20%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(168, 99, 46, 0.05), transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .about-page .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ===== HEADER / SIGNATURE ===== */
+    .about-header {
+        text-align: center;
+        margin-bottom: 55px;
+        position: relative;
+    }
+
+    .about-header .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--roast);
+        margin-bottom: 14px;
+    }
+
+    .about-header .eyebrow::before,
+    .about-header .eyebrow::after {
+        content: '';
+        width: 24px;
+        height: 1px;
+        background: var(--roast);
+        opacity: 0.6;
+    }
+
+    .about-header h1 {
+        font-family: 'Fraunces', serif;
+        color: var(--pine);
+        font-weight: 600;
+        font-size: 3.6rem;
+        letter-spacing: -0.01em;
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Steam signature — rises gently behind the title */
+    .about-header .steam {
+        position: absolute;
+        left: 50%;
+        top: -60px;
+        transform: translateX(-50%);
+        width: 90px;
+        height: 70px;
+        pointer-events: none;
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+    .about-header .steam path {
+        fill: none;
+        stroke: var(--roast);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        opacity: 0;
+        animation: steamRise 6s ease-in-out infinite;
+    }
+
+    .about-header .steam path:nth-child(2) { animation-delay: 1.3s; }
+    .about-header .steam path:nth-child(3) { animation-delay: 2.6s; }
+
+    @keyframes steamRise {
+        0%   { opacity: 0; transform: translateY(10px) scaleY(0.8); }
+        20%  { opacity: 0.55; }
+        70%  { opacity: 0.25; }
+        100% { opacity: 0; transform: translateY(-30px) scaleY(1.15); }
+    }
+
+    .about-header .subtitle {
+        font-family: 'Outfit', sans-serif;
+        color: var(--muted);
+        font-size: 1.15rem;
+        margin-top: 12px;
+    }
+
+    /* ===== ABOUT CARDS ===== */
+    .about-card {
+        background: var(--paper);
+        border-radius: 22px;
+        padding: 35px 25px;
+        box-shadow: 0 10px 40px rgba(10, 92, 54, 0.06);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
         height: 100%;
+        position: relative;
+        overflow: hidden;
+        will-change: transform;
     }
 
-    .about-page .about-card:hover {
+    .about-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(to right, var(--roast), var(--forest));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+
+    .about-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .about-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        box-shadow: 0 20px 55px rgba(10, 92, 54, 0.14);
     }
 
-    .about-page .about-card img {
+    .about-card .image-wrapper {
+        overflow: hidden;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .about-card .image-wrapper img {
         width: 100%;
         height: 250px;
         object-fit: cover;
-        border-radius: 15px;
-        margin-bottom: 20px;
+        transition: transform 0.6s ease;
+        display: block;
     }
 
-    .about-page .about-card h4 {
-        color: #0A5C36;
+    .about-card:hover .image-wrapper img {
+        transform: scale(1.08);
+    }
+
+    .about-card .image-wrapper .overlay-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background: rgba(10, 92, 54, 0.82);
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--cream);
+        font-size: 1.7rem;
+        transition: transform 0.4s ease;
+    }
+
+    .about-card:hover .image-wrapper .overlay-icon {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .about-card .card-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(34, 94, 46, 0.1);
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        margin-bottom: 15px;
+    }
+
+    .about-card .card-icon i {
+        font-size: 1.4rem;
+        color: var(--forest);
+    }
+
+    .about-card h4 {
+        font-family: 'Fraunces', serif;
+        color: var(--pine);
         font-weight: 600;
+        margin-bottom: 12px;
+        font-size: 1.4rem;
+    }
+
+    .about-card p {
+        color: var(--muted);
+        line-height: 1.8;
+        margin-bottom: 0;
+    }
+
+    /* ===== STATISTICS SECTION ===== */
+    .stats-section {
+        margin-top: 65px;
+        background: linear-gradient(155deg, var(--pine), var(--forest));
+        border-radius: 25px;
+        padding: 55px 30px;
+        box-shadow: 0 15px 45px rgba(10, 92, 54, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(254, 241, 180, 0.06) 1.5px, transparent 1.5px);
+        background-size: 26px 26px;
+        pointer-events: none;
+    }
+
+    .stats-section h3 {
+        font-family: 'Fraunces', serif;
+        color: var(--cream);
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .stats-section h3 i { color: var(--cream); opacity: 0.85; }
+
+    .stat-item {
+        text-align: center;
+        padding: 20px;
+        transition: transform 0.3s ease, background 0.3s ease;
+        border-radius: 15px;
+        position: relative;
+    }
+
+    .stat-item:hover {
+        background: rgba(254, 241, 180, 0.08);
+        transform: translateY(-5px);
+    }
+
+    .stat-item .stat-number {
+        font-family: 'Fraunces', serif;
+        font-size: 3.3rem;
+        font-weight: 600;
+        color: var(--cream);
+        display: block;
+        line-height: 1;
+        margin-bottom: 8px;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .stat-item .stat-label {
+        color: rgba(254, 241, 180, 0.75);
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    .stat-item .stat-icon {
+        font-size: 1.7rem;
+        color: var(--cream);
+        margin-bottom: 10px;
+        display: block;
+        opacity: 0.55;
+    }
+
+    /* ===== MISSION SECTION ===== */
+    .mission-section {
+        margin-top: 55px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+    .mission-item {
+        background: var(--paper);
+        border-radius: 20px;
+        padding: 32px 25px;
+        text-align: center;
+        transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border: 2px solid transparent;
+    }
+
+    .mission-item:hover {
+        border-color: var(--roast);
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(10, 92, 54, 0.12);
+    }
+
+    .mission-item i {
+        font-size: 2.3rem;
+        color: var(--roast);
+        margin-bottom: 15px;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .mission-item:hover i {
+        transform: scale(1.15) rotate(4deg);
+    }
+
+    .mission-item h5 {
+        font-family: 'Fraunces', serif;
+        color: var(--pine);
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .mission-item p {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin: 0;
+        line-height: 1.7;
+    }
+
+    /* ===== TEAM SECTION ===== */
+    .team-section {
+        margin-top: 55px;
+    }
+
+    .team-section h3 {
+        font-family: 'Fraunces', serif;
+        color: var(--pine);
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .team-section .team-subtitle {
+        text-align: center;
+        color: var(--muted);
+        margin-bottom: 35px;
+    }
+
+    .team-card {
+        text-align: center;
+        padding: 25px;
+        background: var(--paper);
+        border-radius: 20px;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    .team-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(10, 92, 54, 0.12);
+    }
+
+    .team-card .team-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: 0 auto 15px;
+        border: 4px solid var(--cream);
+        transition: border-color 0.4s ease, transform 0.4s ease;
+        display: block;
+    }
+
+    .team-card:hover .team-img {
+        border-color: var(--roast);
+        transform: scale(1.05);
+    }
+
+    .team-card h5 {
+        font-family: 'Fraunces', serif;
+        color: var(--pine);
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .team-card .role {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+        .mission-section {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .about-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .about-card {
+            padding: 25px 20px;
+        }
+
+        .about-card .image-wrapper img {
+            height: 200px;
+        }
+
+        .stat-item .stat-number {
+            font-size: 2.4rem;
+        }
+
+        .stats-section {
+            padding: 35px 20px;
+        }
+
+        .mission-section {
+            grid-template-columns: 1fr;
+        }
+
+        .team-card .team-img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .about-header h1 {
+            font-size: 2rem;
+        }
+
+        .stat-item .stat-number {
+            font-size: 2rem;
+        }
+
+        .about-card .image-wrapper img {
+            height: 180px;
+        }
+
+        .mission-item {
+            padding: 20px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .about-header .steam path { animation: none; opacity: 0.3; }
+        .about-card, .mission-item, .team-card, .stat-item {
+            transition: none;
+        }
     }
 </style>
 
 <section class="about-page">
     <div class="container">
-        <div class="text-center mb-5">
-            <h1 class="display-3">About Kiarash Cafe</h1>
-            <p class="fs-5" style="color: #225E2E;">Discover our story, our coffee, and our passion</p>
+        <!-- ===== HEADER ===== -->
+        <div class="about-header">
+            <svg class="steam" viewBox="0 0 90 70" aria-hidden="true">
+                <path d="M20 65 C 10 45, 30 40, 22 20 C 16 5, 28 0, 30 -5" />
+                <path d="M45 65 C 35 45, 55 38, 47 18 C 41 3, 53 -2, 55 -8" />
+                <path d="M70 65 C 60 45, 80 40, 72 20 C 66 5, 78 0, 80 -5" />
+            </svg>
+            <span class="eyebrow">Est. Kiarash Cafe</span>
+            <h1>About Kiarash Cafe</h1>
+            <p class="subtitle">Discover our story, our coffee, and our passion for excellence</p>
         </div>
 
+        <!-- ===== ABOUT CARDS ===== -->
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about1.png' %}" alt="Our Story">
-                    <h4><i class="fas fa-book-open" style="color: #225E2E;"></i> Our Story</h4>
+                    <div class="image-wrapper">
+                        <img src="{% static 'images/about1.png' %}" alt="Our Story">
+                        <div class="overlay-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                    </div>
+                    <div class="card-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h4>Our Story</h4>
                     <p>Kiarash Cafe was born from a simple dream: to create a space where people could enjoy exceptional coffee in a warm, welcoming environment. Since our opening, we've been dedicated to serving the community with love and passion.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about2.png' %}" alt="Our Coffee">
-                    <h4><i class="fas fa-coffee" style="color: #225E2E;"></i> Our Coffee</h4>
+                    <div class="image-wrapper">
+                        <img src="{% static 'images/about2.png' %}" alt="Our Coffee">
+                        <div class="overlay-icon">
+                            <i class="fas fa-coffee"></i>
+                        </div>
+                    </div>
+                    <div class="card-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <h4>Our Coffee</h4>
                     <p>We source our beans directly from the finest coffee farms around the world. Each batch is carefully roasted to perfection, ensuring every cup delivers the rich, smooth flavor that Kiarash Cafe is known for.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="about-card">
-                    <img src="{% static 'images/about3.png' %}" alt="Our Team">
-                    <h4><i class="fas fa-users" style="color: #225E2E;"></i> Our Team</h4>
+                    <div class="image-wrapper">
+                        <img src="{% static 'images/about3.png' %}" alt="Our Team">
+                        <div class="overlay-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Our Team</h4>
                     <p>Our team of passionate baristas and friendly staff are the heart of Kiarash Cafe. We're committed to providing exceptional service and making every visit a memorable experience for our customers.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== STATISTICS ===== -->
+        <div class="stats-section">
+            <h3><i class="fas fa-chart-line"></i> Kiarash Cafe in Numbers</h3>
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-icon"><i class="fas fa-mug-hot"></i></span>
+                        <span class="stat-number" id="stat1" data-target="2500" data-suffix="+">0</span>
+                        <span class="stat-label">Happy Customers</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-icon"><i class="fas fa-coffee"></i></span>
+                        <span class="stat-number" id="stat2" data-target="12500" data-suffix="+">0</span>
+                        <span class="stat-label">Cups Sold</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-icon"><i class="fas fa-calendar-alt"></i></span>
+                        <span class="stat-number" id="stat3" data-target="12" data-suffix="+">0</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item">
+                        <span class="stat-icon"><i class="fas fa-award"></i></span>
+                        <span class="stat-number" id="stat4" data-target="8" data-suffix="+">0</span>
+                        <span class="stat-label">Awards Won</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MISSION SECTION ===== -->
+        <div class="mission-section">
+            <div class="mission-item">
+                <i class="fas fa-heart"></i>
+                <h5>Our Mission</h5>
+                <p>To create a welcoming space where every customer feels at home and every cup of coffee tells a story of quality and passion.</p>
+            </div>
+            <div class="mission-item">
+                <i class="fas fa-eye"></i>
+                <h5>Our Vision</h5>
+                <p>To become the most beloved coffee destination in the city, known for exceptional quality, warm hospitality, and community connection.</p>
+            </div>
+            <div class="mission-item">
+                <i class="fas fa-gem"></i>
+                <h5>Our Values</h5>
+                <p>Quality, integrity, community, and sustainability. We believe in serving the best coffee while caring for our people and our planet.</p>
+            </div>
+        </div>
+
+        <!-- ===== TEAM SECTION ===== -->
+        <div class="team-section">
+            <h3><i class="fas fa-user-friends" style="color: var(--roast);"></i> Meet Our Team</h3>
+            <p class="team-subtitle">The passionate people behind Kiarash Cafe</p>
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="team-card">
+                        <img src="{% static 'images/team1.png' %}" alt="John Doe, Head Barista" class="team-img" onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=John&background=225E2E&color=FEF1B4&size=120'">
+                        <h5>John Doe</h5>
+                        <p class="role">Head Barista</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="team-card">
+                        <img src="{% static 'images/team2.png' %}" alt="Jane Smith, Cafe Manager" class="team-img" onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Jane&background=225E2E&color=FEF1B4&size=120'">
+                        <h5>Jane Smith</h5>
+                        <p class="role">Cafe Manager</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="team-card">
+                        <img src="{% static 'images/team3.png' %}" alt="Mike Johnson, Master Roaster" class="team-img" onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Mike&background=225E2E&color=FEF1B4&size=120'">
+                        <h5>Mike Johnson</h5>
+                        <p class="role">Master Roaster</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="team-card">
+                        <img src="{% static 'images/team4.png' %}" alt="Sarah Wilson, Pastry Chef" class="team-img" onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Sarah&background=225E2E&color=FEF1B4&size=120'">
+                        <h5>Sarah Wilson</h5>
+                        <p class="role">Pastry Chef</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,15 +643,114 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.from('.about-card', {
-            scrollTrigger: { trigger: '.about-page', start: 'top 80%', toggleActions: 'play none none none' },
-            y: 50,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: 'power2.out'
-        });
+        var hasGSAP = typeof gsap !== 'undefined';
+
+        // ===== SCROLL-TRIGGERED REVEALS (GSAP handles entrance only; =====
+        // ===== hover/interaction states are left entirely to CSS so   =====
+        // ===== the two systems never fight over the same transform.  =====
+        if (hasGSAP) {
+            if (typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+            }
+
+            gsap.from('.about-card', {
+                scrollTrigger: {
+                    trigger: '.about-page',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'power2.out'
+            });
+
+            gsap.from('.stat-item', {
+                scrollTrigger: {
+                    trigger: '.stats-section',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                y: 30,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'power2.out'
+            });
+
+            gsap.from('.mission-item', {
+                scrollTrigger: {
+                    trigger: '.mission-section',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.7,
+                stagger: 0.15,
+                ease: 'power2.out'
+            });
+
+            gsap.from('.team-card', {
+                scrollTrigger: {
+                    trigger: '.team-section',
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                },
+                scale: 0.9,
+                opacity: 0,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'back.out(1.7)'
+            });
+        }
+
+        // ===== COUNTER ANIMATION =====
+        // Reads target/suffix straight from data attributes instead of
+        // hard-coded numbers, and only ever runs once per element.
+        function animateCounter(el) {
+            var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+            var suffix = el.getAttribute('data-suffix') || '';
+            var counter = { value: 0 };
+
+            if (hasGSAP) {
+                gsap.to(counter, {
+                    value: target,
+                    duration: 1.8,
+                    ease: 'power1.out',
+                    onUpdate: function () {
+                        el.textContent = Math.floor(counter.value) + suffix;
+                    }
+                });
+            } else {
+                var current = 0;
+                var increment = Math.max(target / 50, 1);
+                var interval = setInterval(function () {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    el.textContent = Math.floor(current) + suffix;
+                }, 30);
+            }
+        }
+
+        var statsSection = document.querySelector('.stats-section');
+        if (statsSection && 'IntersectionObserver' in window) {
+            var statsObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.stat-number').forEach(animateCounter);
+                        statsObserver.disconnect();
+                    }
+                });
+            }, { threshold: 0.3 });
+            statsObserver.observe(statsSection);
+        } else if (statsSection) {
+            document.querySelectorAll('.stat-number').forEach(animateCounter);
+        }
     });
 </script>
 {% endblock %}
