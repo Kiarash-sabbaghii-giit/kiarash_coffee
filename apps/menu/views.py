@@ -3,8 +3,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.db import models
+from django.db.models import Sum
 from apps.menu.models import Category, Product
+from apps.orders.models import CartItem
 
 
 def menu_view(request):
@@ -33,15 +34,13 @@ def menu_view(request):
 def menu_detail(request, category_name):
     """نمایش محصولات یک دسته‌بندی"""
 
-    # ===== اصلاح اینجا =====
-    # نگاشت نام‌های نمایشی به نام کلکشن‌های MongoDB
     collection_mapping = {
         'hot_drinks': 'hot_drinks',
         'cold_drinks': 'cold_drinks',
-        'Seasonal_Promotion': 'Seasonal_Promotion',  # ← دقیقاً همین
+        'Seasonal_Promotion': 'Seasonal_Promotion',
         'matcha': 'matcha',
         'healthy_menu': 'healthy_menu',
-        'Brewed_coffee': 'Brewed_coffee',  # ← دقیقاً همین
+        'Brewed_coffee': 'Brewed_coffee',
         'tea': 'tea',
         'elcless': 'elcless',
         'cakes': 'cakes',
@@ -50,13 +49,9 @@ def menu_detail(request, category_name):
         'popsickle': 'popsickle'
     }
 
-    # دریافت نام کلکشن صحیح
     collection_name = collection_mapping.get(category_name, category_name)
-
-    # دریافت محصولات از MongoDB با نام کلکشن صحیح
     products = Product.get_products_by_category(collection_name)
 
-    # پیدا کردن نام دسته‌بندی برای نمایش
     category_names = {
         'hot_drinks': 'Hot Drinks',
         'cold_drinks': 'Cold Drinks',
@@ -88,13 +83,14 @@ def menu_detail(request, category_name):
 def add_to_cart(request):
     """افزودن محصول به سبد خرید"""
     if request.method == 'POST':
-        from apps.orders.models import CartItem
-
         product_name = request.POST.get('product_name')
         price = request.POST.get('price')
         quantity = int(request.POST.get('quantity', 1))
         price_type = request.POST.get('price_type', '')
         image_url = request.POST.get('image_url', '')
+
+        if not price:
+            price = 0
 
         try:
             cart_item, created = CartItem.objects.get_or_create(
@@ -112,9 +108,20 @@ def add_to_cart(request):
                 cart_item.quantity += quantity
                 cart_item.save()
 
-            return JsonResponse({'status': 'success', 'message': 'Added to cart'})
+            total_count = CartItem.objects.filter(user=request.user).aggregate(
+                total=Sum('quantity')
+            )['total'] or 0
+
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Added to cart',
+                'cart_count': total_count
+            })
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
+            return JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            })
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
@@ -122,11 +129,7 @@ def add_to_cart(request):
 @login_required
 def get_cart_count(request):
     """دریافت تعداد آیتم‌های سبد خرید"""
-    from apps.orders.models import CartItem
-    from django.db.models import Sum
-
     count = CartItem.objects.filter(user=request.user).aggregate(
         total=Sum('quantity')
     )['total'] or 0
-
     return JsonResponse({'count': count})

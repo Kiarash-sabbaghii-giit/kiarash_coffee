@@ -177,13 +177,6 @@
         display: flex;
         flex-direction: column;
         height: 100%;
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    .product-card.visible {
-        opacity: 1;
-        transform: translateY(0);
     }
 
     .product-card:hover {
@@ -275,7 +268,7 @@
         opacity: 1;
     }
 
-    /* ===== PRICE VARIANTS - گروه‌بندی شده ===== */
+    /* ===== PRICE VARIANTS ===== */
     .product-card .product-info .variants {
         display: flex;
         flex-wrap: wrap;
@@ -299,17 +292,6 @@
         transition: all 0.3s var(--ease-out);
         appearance: none;
         position: relative;
-    }
-
-    .product-card .product-info .variants .variant::after {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        border-radius: 20px;
-        background: linear-gradient(135deg, var(--forest), var(--gold));
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: -1;
     }
 
     .product-card .product-info .variants .variant:hover {
@@ -489,7 +471,6 @@
         font-weight: 300;
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
         .menu-detail { padding-top: 110px; }
         .product-card .product-info { padding: 18px 20px 20px; }
@@ -512,10 +493,6 @@
         .back-link,
         .back-link i {
             transition: none !important;
-        }
-        .product-card {
-            opacity: 1 !important;
-            transform: none !important;
         }
     }
 </style>
@@ -586,7 +563,7 @@
                             <button type="button" class="qty-plus" aria-label="Increase quantity">+</button>
                             <input type="hidden" class="qty-input" value="1">
                         </div>
-                        <button type="button" class="btn-add" data-image="{{ product.image_url|default:'' }}">
+                        <button type="button" class="btn-add add-to-cart-btn" data-image="{{ product.image_url|default:'' }}">
                             <i class="fas fa-shopping-bag" aria-hidden="true"></i> <span class="btn-add-label">Add</span>
                         </button>
                     </div>
@@ -605,201 +582,120 @@
 </section>
 
 <script>
-(function () {
+document.addEventListener('DOMContentLoaded', function() {
     const csrfToken = '{{ csrf_token }}';
-    const addToCartUrl = '{% url "menu:add_to_cart" %}';
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    document.addEventListener('DOMContentLoaded', function () {
+    // ===== QUANTITY CONTROLS =====
+    document.querySelectorAll('.qty-control').forEach(function(control) {
+        const minusBtn = control.querySelector('.qty-minus');
+        const plusBtn = control.querySelector('.qty-plus');
+        const display = control.querySelector('.qty-display');
+        const input = control.querySelector('.qty-input');
+        const MIN = 1;
+        const MAX = 99;
 
-        // ===== SCROLL REVEAL با انیمیشن =====
-        if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
-            const cards = document.querySelectorAll('.product-card');
-
-            cards.forEach(function(card, index) {
-                gsap.to(card, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.7,
-                    delay: index * 0.08,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: card,
-                        start: 'top 88%',
-                        toggleActions: 'play none none none',
-                        once: true
-                    }
-                });
-            });
-
-            // Header animation
-            gsap.from('.category-header h1, .category-header .eyebrow, .category-header .divider, .category-header .subtitle', {
-                scrollTrigger: {
-                    trigger: '.category-header',
-                    start: 'top 85%',
-                    toggleActions: 'play none none none'
-                },
-                y: -30,
-                opacity: 0,
-                duration: 0.7,
-                stagger: 0.12,
-                ease: 'power2.out'
-            });
-
-            // Back link animation
-            gsap.from('.back-link', {
-                scrollTrigger: {
-                    trigger: '.back-link',
-                    start: 'top 90%',
-                    toggleActions: 'play none none none'
-                },
-                x: -40,
-                opacity: 0,
-                duration: 0.6,
-                ease: 'power2.out'
-            });
-        } else if (!prefersReducedMotion) {
-            // Fallback: show cards immediately if GSAP not loaded
-            document.querySelectorAll('.product-card').forEach(function(card) {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            });
-        } else {
-            // Reduced motion: show cards immediately
-            document.querySelectorAll('.product-card').forEach(function(card) {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            });
+        function syncButtons(val) {
+            minusBtn.disabled = val <= MIN;
+            plusBtn.disabled = val >= MAX;
         }
 
-        // ===== QUANTITY CONTROLS =====
-        document.querySelectorAll('.qty-control').forEach(function (control) {
-            const minusBtn = control.querySelector('.qty-minus');
-            const plusBtn = control.querySelector('.qty-plus');
-            const display = control.querySelector('.qty-display');
-            const input = control.querySelector('.qty-input');
-            const MIN = 1;
-            const MAX = 99;
+        syncButtons(parseInt(input.value, 10));
 
-            function syncButtons(val) {
-                minusBtn.disabled = val <= MIN;
-                plusBtn.disabled = val >= MAX;
-            }
-
-            syncButtons(parseInt(input.value, 10));
-
-            minusBtn.addEventListener('click', function () {
-                const val = Math.max(MIN, parseInt(input.value, 10) - 1);
-                input.value = val;
-                display.textContent = val;
-                syncButtons(val);
-            });
-
-            plusBtn.addEventListener('click', function () {
-                const val = Math.min(MAX, parseInt(input.value, 10) + 1);
-                input.value = val;
-                display.textContent = val;
-                syncButtons(val);
-            });
+        minusBtn.addEventListener('click', function() {
+            const val = Math.max(MIN, parseInt(input.value, 10) - 1);
+            input.value = val;
+            display.textContent = val;
+            syncButtons(val);
         });
 
-        // ===== VARIANT SELECTION =====
-        document.querySelectorAll('.variants').forEach(function (group) {
-            group.querySelectorAll('.variant').forEach(function (variant) {
-                variant.addEventListener('click', function () {
-                    group.querySelectorAll('.variant').forEach(function (v) {
-                        v.classList.remove('active');
-                        v.setAttribute('aria-pressed', 'false');
-                    });
-                    this.classList.add('active');
-                    this.setAttribute('aria-pressed', 'true');
+        plusBtn.addEventListener('click', function() {
+            const val = Math.min(MAX, parseInt(input.value, 10) + 1);
+            input.value = val;
+            display.textContent = val;
+            syncButtons(val);
+        });
+    });
+
+    // ===== VARIANT SELECTION =====
+    document.querySelectorAll('.variants').forEach(function(group) {
+        group.querySelectorAll('.variant').forEach(function(variant) {
+            variant.addEventListener('click', function() {
+                group.querySelectorAll('.variant').forEach(function(v) {
+                    v.classList.remove('active');
+                    v.setAttribute('aria-pressed', 'false');
                 });
-            });
-        });
-
-        // ===== ADD TO CART =====
-        document.querySelectorAll('.btn-add').forEach(function (btn) {
-            const defaultHTML = btn.innerHTML;
-            btn.addEventListener('click', function () {
-                if (btn.disabled) return;
-
-                const card = btn.closest('.product-card');
-                const englishName = card.querySelector('.english-name')?.textContent?.trim() || '';
-                const persianName = card.querySelector('.persian-name')?.textContent?.trim() || '';
-                const activeVariant = card.querySelector('.variant.active');
-
-                const price = activeVariant ? activeVariant.dataset.price : '';
-                const type = activeVariant ? activeVariant.dataset.type : '';
-                const quantity = card.querySelector('.qty-input')?.value || 1;
-                const imageUrl = btn.dataset.image || card.querySelector('.product-image img')?.getAttribute('src') || '';
-
-                const productName = persianName || englishName;
-
-                btn.disabled = true;
-                btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
-
-                const formData = new URLSearchParams();
-                formData.append('product_name', productName);
-                formData.append('price', price);
-                formData.append('quantity', quantity);
-                formData.append('price_type', type);
-                formData.append('image_url', imageUrl);
-
-                fetch(addToCartUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-CSRFToken': csrfToken
-                    },
-                    body: formData
-                })
-                    .then(function (response) {
-                        if (!response.ok) throw new Error('Request failed');
-                        return response.json();
-                    })
-                    .then(function (data) {
-                        if (data.status === 'success') {
-                            btn.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i> Added!';
-                            btn.classList.add('is-success');
-                            updateCartCount();
-
-                            // Success animation
-                            gsap.to(btn, {
-                                scale: 1.05,
-                                duration: 0.3,
-                                ease: 'back.out(2)',
-                                yoyo: true,
-                                repeat: 1
-                            });
-                        } else {
-                            throw new Error(data.message || 'Could not add item');
-                        }
-                    })
-                    .catch(function () {
-                        btn.innerHTML = '<i class="fas fa-exclamation-circle" aria-hidden="true"></i> Error';
-                        btn.classList.add('is-error');
-                    })
-                    .finally(function () {
-                        setTimeout(function () {
-                            btn.innerHTML = defaultHTML;
-                            btn.classList.remove('is-success', 'is-error');
-                            btn.disabled = false;
-                        }, 2000);
-                    });
+                this.classList.add('active');
+                this.setAttribute('aria-pressed', 'true');
             });
         });
     });
 
-    // ===== UPDATE CART COUNT =====
-    function updateCartCount() {
-        fetch('/menu/cart-count/')
-            .then(function (response) { return response.json(); })
-            .then(function (data) {
-                const el = document.getElementById('cart-count');
-                if (el) el.textContent = data.count || 0;
+    // ===== ADD TO CART =====
+    document.querySelectorAll('.add-to-cart-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            if (btn.disabled) return;
+
+            const card = btn.closest('.product-card');
+            const persianName = card.querySelector('.persian-name')?.textContent?.trim() || '';
+            const englishName = card.querySelector('.english-name')?.textContent?.trim() || '';
+            const activeVariant = card.querySelector('.variant.active');
+
+            const price = activeVariant ? activeVariant.dataset.price : '';
+            const type = activeVariant ? activeVariant.dataset.type : '';
+            const quantity = card.querySelector('.qty-input')?.value || 1;
+            const imageUrl = btn.dataset.image || '';
+
+            const productName = persianName || englishName;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span>';
+
+            const formData = new URLSearchParams();
+            formData.append('product_name', productName);
+            formData.append('price', price);
+            formData.append('quantity', quantity);
+            formData.append('price_type', type);
+            formData.append('image_url', imageUrl);
+
+            fetch('/menu/add-to-cart/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: formData
             })
-            .catch(function () {});
-    }
-})();
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.status === 'success') {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Added!';
+                    btn.classList.add('is-success');
+
+                    // به‌روزرسانی شمارنده سبد خرید
+                    const badge = document.getElementById('cart-count');
+                    if (badge) {
+                        badge.textContent = data.cart_count || 0;
+                    }
+                } else {
+                    btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + (data.message || 'Error');
+                    btn.classList.add('is-error');
+                }
+            })
+            .catch(function() {
+                btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
+                btn.classList.add('is-error');
+            })
+            .finally(function() {
+                setTimeout(function() {
+                    btn.innerHTML = '<i class="fas fa-shopping-bag"></i> <span class="btn-add-label">Add</span>';
+                    btn.classList.remove('is-success', 'is-error');
+                    btn.disabled = false;
+                }, 2000);
+            });
+        });
+    });
+});
 </script>
 {% endblock %}

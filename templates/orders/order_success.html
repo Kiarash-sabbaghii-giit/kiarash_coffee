@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Success - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .success-page {
+        padding-top: 160px;
+        padding-bottom: 80px;
+        min-height: 100vh;
+        background: #FEF1B4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .success-card {
+        background: white;
+        border-radius: 20px;
+        padding: 50px 40px;
+        max-width: 550px;
+        text-align: center;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        border: 1px solid rgba(10, 92, 54, 0.06);
+    }
+
+    .success-card .icon {
+        font-size: 4rem;
+        color: #4CAF50;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .success-card h2 {
+        color: #0A5C36;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .success-card .order-id {
+        color: #888;
+        font-size: 1.1rem;
+        margin-bottom: 16px;
+    }
+
+    .success-card .order-id span {
+        color: #225E2E;
+        font-weight: 700;
+    }
+
+    .success-card p {
+        color: #555;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    .success-card .btn-group {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .success-card .btn-group a {
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .success-card .btn-group .btn-primary {
+        background: #225E2E;
+        color: #FEF1B4;
+    }
+
+    .success-card .btn-group .btn-primary:hover {
+        background: #0A5C36;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(34, 94, 46, 0.3);
+    }
+
+    .success-card .btn-group .btn-secondary {
+        background: transparent;
+        color: #225E2E;
+        border: 2px solid #225E2E;
+    }
+
+    .success-card .btn-group .btn-secondary:hover {
+        background: #225E2E;
+        color: #FEF1B4;
+    }
+
+    @media (max-width: 576px) {
+        .success-page { padding-top: 120px; }
+        .success-card { padding: 30px 20px; }
+        .success-card .icon { font-size: 3rem; }
+        .success-card h2 { font-size: 1.5rem; }
+        .success-card .btn-group { flex-direction: column; }
+    }
+</style>
+
+<section class="success-page">
+    <div class="container">
+        <div class="success-card">
+            <span class="icon"><i class="fas fa-check-circle"></i></span>
+            <h2>Order Placed!</h2>
+            <div class="order-id">Order ID: <span>#{{ order.id }}</span></div>
+            <p>
+                Thank you for your order! We've received your order and will start preparing it soon.
+                You can track your order status in your <strong>History</strong> section.
+            </p>
+            <div class="btn-group">
+                <a href="{% url 'orders:history' %}" class="btn-primary">
+                    <i class="fas fa-clock-rotate-left"></i> View History
+                </a>
+                <a href="{% url 'menu:menu_list' %}" class="btn-secondary">
+                    <i class="fas fa-utensils"></i> Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

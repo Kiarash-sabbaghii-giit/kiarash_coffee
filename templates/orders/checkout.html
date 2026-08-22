@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Checkout - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .checkout-page {
+        padding-top: 140px;
+        padding-bottom: 80px;
+        min-height: 100vh;
+        background: #FEF1B4;
+    }
+
+    .checkout-page h1 {
+        color: #0A5C36;
+        font-weight: 700;
+        font-size: 2.8rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .checkout-page .divider {
+        width: 60px;
+        height: 2px;
+        background: #225E2E;
+        margin: 0 auto 30px;
+        border-radius: 5px;
+    }
+
+    .checkout-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .checkout-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        border: 1px solid rgba(10, 92, 54, 0.06);
+    }
+
+    .checkout-card h3 {
+        color: #0A5C36;
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid rgba(10, 92, 54, 0.06);
+    }
+
+    .checkout-card h3 i {
+        color: #225E2E;
+        margin-right: 8px;
+    }
+
+    /* Order Items */
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(10, 92, 54, 0.04);
+        font-size: 0.95rem;
+    }
+
+    .order-item:last-child {
+        border-bottom: none;
+    }
+
+    .order-item .item-name {
+        color: #333;
+    }
+
+    .order-item .item-price {
+        color: #0A5C36;
+        font-weight: 500;
+    }
+
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 12px;
+        margin-top: 12px;
+        border-top: 2px solid rgba(10, 92, 54, 0.08);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0A5C36;
+    }
+
+    /* User Info */
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(10, 92, 54, 0.04);
+    }
+
+    .info-row .label {
+        color: #888;
+        font-weight: 500;
+    }
+
+    .info-row .value {
+        color: #333;
+        font-weight: 500;
+    }
+
+    .btn-place-order {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background: #225E2E;
+        color: #FEF1B4;
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+
+    .btn-place-order:hover {
+        background: #0A5C36;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(34, 94, 46, 0.3);
+    }
+
+    .btn-back {
+        display: inline-block;
+        padding: 10px 25px;
+        background: transparent;
+        color: #225E2E;
+        border: 2px solid #225E2E;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .btn-back:hover {
+        background: #225E2E;
+        color: #FEF1B4;
+    }
+
+    @media (max-width: 768px) {
+        .checkout-container {
+            grid-template-columns: 1fr;
+        }
+        .checkout-page { padding-top: 110px; }
+        .checkout-page h1 { font-size: 2.2rem; }
+        .checkout-card { padding: 20px; }
+    }
+</style>
+
+<section class="checkout-page">
+    <div class="container">
+        <h1><i class="fas fa-credit-card" style="color: #225E2E;"></i> Checkout</h1>
+        <div class="divider"></div>
+
+        <div class="checkout-container">
+            <!-- Order Summary -->
+            <div class="checkout-card">
+                <h3><i class="fas fa-receipt"></i> Order Summary</h3>
+                {% for item in cart_items %}
+                <div class="order-item">
+                    <span class="item-name">{{ item.quantity }}× {{ item.product_name }} {% if item.price_type %}({{ item.price_type }}){% endif %}</span>
+                    <span class="item-price">{{ item.get_total|floatformat:0 }} تومان</span>
+                </div>
+                {% endfor %}
+                <div class="order-total">
+                    <span>Total</span>
+                    <span>{{ total|floatformat:0 }} تومان</span>
+                </div>
+            </div>
+
+            <!-- User Info & Confirm -->
+            <div class="checkout-card">
+                <h3><i class="fas fa-user"></i> Shipping Information</h3>
+                <div class="info-row">
+                    <span class="label">Name</span>
+                    <span class="value">{{ user.first_name }} {{ user.last_name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Email</span>
+                    <span class="value">{{ user.email }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Phone</span>
+                    <span class="value">{{ user.phone_number }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Address</span>
+                    <span class="value">{{ user.address }}</span>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-place-order">
+                        <i class="fas fa-check-circle"></i> Place Order
+                    </button>
+                </form>
+                <a href="{% url 'orders:cart' %}" class="btn-back" style="display: block;">
+                    <i class="fas fa-arrow-left"></i> Back to Cart
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

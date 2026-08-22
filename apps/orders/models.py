@@ -5,7 +5,6 @@ from apps.accounts.models import User
 
 
 class Order(models.Model):
-    """مدل سفارش"""
     STATUS_CHOICES = [
         ('PENDING', 'Pending'),
         ('CONFIRMED', 'Confirmed'),
@@ -27,7 +26,6 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    """مدل آیتم‌های سفارش"""
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product_name = models.CharField(max_length=200)
     product_price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -39,7 +37,6 @@ class OrderItem(models.Model):
 
 
 class CartItem(models.Model):
-    """مدل سبد خرید موقت (در جلسه کاربر)"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items')
     product_name = models.CharField(max_length=200)
     product_price = models.DecimalField(max_digits=10, decimal_places=2)

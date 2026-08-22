@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .edit-profile-page {
+        padding-top: 140px;
+        padding-bottom: 80px;
+        min-height: 100vh;
+        background: #FEF1B4;
+    }
+
+    .edit-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        max-width: 500px;
+        margin: 0 auto;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        border: 1px solid rgba(10, 92, 54, 0.06);
+    }
+
+    .edit-card h2 {
+        color: #0A5C36;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .edit-card .form-label {
+        font-weight: 600;
+        color: #0A5C36;
+        font-size: 0.9rem;
+    }
+
+    .edit-card .form-control {
+        border-radius: 12px;
+        padding: 10px 16px;
+        border: 2px solid #e8e8e8;
+        transition: all 0.3s ease;
+    }
+
+    .edit-card .form-control:focus {
+        border-color: #225E2E;
+        box-shadow: 0 0 0 3px rgba(34, 94, 46, 0.1);
+        outline: none;
+    }
+
+    .edit-card .btn-save {
+        display: inline-block;
+        width: 100%;
+        padding: 12px;
+        background: #225E2E;
+        color: #FEF1B4;
+        border: none;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .edit-card .btn-save:hover {
+        background: #0A5C36;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(34, 94, 46, 0.3);
+    }
+
+    .edit-card .btn-cancel {
+        display: inline-block;
+        width: 100%;
+        padding: 12px;
+        background: transparent;
+        color: #888;
+        border: 2px solid #e8e8e8;
+        border-radius: 30px;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .edit-card .btn-cancel:hover {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+    .edit-card .help-text {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 4px;
+    }
+
+    @media (max-width: 576px) {
+        .edit-profile-page { padding-top: 110px; }
+        .edit-card { padding: 25px 20px; }
+    }
+</style>
+
+<section class="edit-profile-page">
+    <div class="container">
+        <div class="edit-card">
+            <h2><i class="fas fa-user-edit" style="color: #225E2E;"></i> Edit Profile</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    {{ form.first_name }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    {{ form.last_name }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                    {{ form.phone_number }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Address</label>
+                    {{ form.address }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">New Password</label>
+                    {{ form.password }}
+                    <div class="help-text">Leave blank to keep current password</div>
+                </div>
+
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <a href="{% url 'accounts:profile' %}" class="btn-cancel">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -45,13 +45,9 @@
         #mainNavbar {
             background: rgba(34, 94, 46, 0.95);
             padding: 12px 0;
-            transition: all 0.4s ease;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
             border-bottom: 2px solid rgba(254, 241, 180, 0.2);
             z-index: 1000;
-        }
-
-        #mainNavbar .navbar-brand {
-            transition: all 0.3s ease;
         }
 
         #mainNavbar .navbar-brand img {
@@ -59,7 +55,7 @@
             height: 55px;
             object-fit: cover;
             border: 2px solid #FEF1B4;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         #mainNavbar .navbar-brand img:hover {
@@ -73,21 +69,19 @@
             letter-spacing: 2px;
             color: #FEF1B4;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
         }
 
         #mainNavbar .navbar-brand span:hover {
             color: #FBF5C3;
-            transform: scale(1.02);
         }
 
         /* Navbar Links */
         .nav-link-custom {
-            position: relative;
             font-weight: 500;
             font-size: 1.05rem;
             padding: 8px 0 !important;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
             letter-spacing: 0.5px;
             color: #ffffff !important;
             text-decoration: none;
@@ -95,16 +89,109 @@
 
         .nav-link-custom:hover {
             color: #FEF1B4 !important;
-            transform: scale(1.05);
         }
 
         .nav-link-custom i {
             margin-right: 6px;
-            transition: all 0.3s ease;
         }
 
-        .nav-link-custom:hover i {
-            transform: scale(1.15);
+        /* ===== PROFILE DROPDOWN ===== */
+        .profile-dropdown .dropdown-toggle::after {
+            display: none;
+        }
+
+        .profile-dropdown .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: #ffffff !important;
+            padding: 8px 0 !important;
+            font-weight: 500;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-dropdown .dropdown-toggle:hover {
+            color: #FEF1B4 !important;
+        }
+
+        .profile-dropdown .dropdown-toggle .avatar-icon {
+            font-size: 1.1rem;
+        }
+
+        .profile-dropdown .dropdown-menu {
+            background: #225E2E !important;
+            border: 1px solid rgba(254, 241, 180, 0.2) !important;
+            border-radius: 15px !important;
+            padding: 8px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            min-width: 180px;
+            margin-top: 8px;
+        }
+
+        .profile-dropdown .dropdown-menu .dropdown-item {
+            border-radius: 10px;
+            padding: 10px 18px !important;
+            transition: background 0.3s ease;
+            color: #ffffff !important;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-dropdown .dropdown-menu .dropdown-item:hover {
+            background: rgba(254, 241, 180, 0.15) !important;
+            color: #FEF1B4 !important;
+        }
+
+        .profile-dropdown .dropdown-menu .dropdown-item i {
+            width: 20px;
+            color: #FEF1B4;
+            font-size: 0.9rem;
+        }
+
+        .profile-dropdown .dropdown-divider {
+            border-color: rgba(254, 241, 180, 0.1) !important;
+            margin: 6px 0;
+        }
+
+        /* ===== CART BUTTON ===== */
+        .cart-link {
+            position: relative;
+            color: #ffffff !important;
+            font-size: 1.2rem;
+            padding: 8px 12px !important;
+            transition: color 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cart-link:hover {
+            color: #FEF1B4 !important;
+        }
+
+        .cart-link .cart-badge {
+            position: absolute;
+            top: 0px;
+            right: 2px;
+            background: #C8973B;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(200, 151, 59, 0.4);
         }
 
         /* Navbar Toggler */
@@ -121,43 +208,6 @@
 
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(254, 241, 180, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        /* Dropdown */
-        .dropdown-menu {
-            background: #225E2E !important;
-            border: 1px solid rgba(254, 241, 180, 0.2) !important;
-            border-radius: 15px !important;
-            padding: 10px !important;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .dropdown-menu .dropdown-item {
-            border-radius: 10px;
-            padding: 10px 20px !important;
-            transition: all 0.3s ease;
-            color: #ffffff !important;
-        }
-
-        .dropdown-menu .dropdown-item:hover {
-            background: rgba(254, 241, 180, 0.15) !important;
-            transform: scale(1.03);
-            color: #FEF1B4 !important;
-        }
-
-        .dropdown-menu .dropdown-item i {
-            margin-right: 10px;
-            color: #FEF1B4;
-        }
-
-        .dropdown-divider {
-            border-color: rgba(254, 241, 180, 0.2) !important;
-        }
-
-        /* Cart Badge */
-        .cart-count {
-            font-size: 0.7rem;
-            padding: 3px 7px;
         }
 
         /* Footer */
@@ -192,20 +242,35 @@
             .nav-item:last-child {
                 border-bottom: none;
             }
-            .dropdown-menu {
+            .profile-dropdown .dropdown-menu {
                 background: transparent !important;
                 border: none !important;
                 box-shadow: none !important;
                 padding: 0 !important;
+                margin-top: 0 !important;
             }
-            .dropdown-menu .dropdown-item {
-                text-align: center;
+            .profile-dropdown .dropdown-menu .dropdown-item {
+                justify-content: center;
+                padding: 8px 0 !important;
             }
-            .dropdown-menu .dropdown-item:hover {
+            .profile-dropdown .dropdown-menu .dropdown-item:hover {
                 background: rgba(254, 241, 180, 0.1) !important;
+            }
+            .profile-dropdown .dropdown-toggle {
+                justify-content: center;
             }
             .dropdown-divider {
                 display: none;
+            }
+            .cart-link {
+                justify-content: center;
+                padding: 10px 0 !important;
+            }
+            .cart-link .cart-badge {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-left: 4px;
             }
         }
 
@@ -238,63 +303,88 @@
             </button>
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav align-items-center gap-4">
+                <ul class="navbar-nav align-items-center gap-3">
+                    <!-- Home -->
                     <li class="nav-item">
                         <a class="nav-link nav-link-custom" href="{% url 'core:home' %}">
                             <i class="fas fa-home"></i> Home
                         </a>
                     </li>
+
+                    <!-- Menu -->
                     <li class="nav-item">
                         <a class="nav-link nav-link-custom" href="{% url 'menu:menu_list' %}">
                             <i class="fas fa-utensils"></i> Menu
                         </a>
                     </li>
+
+                    <!-- About -->
                     <li class="nav-item">
                         <a class="nav-link nav-link-custom" href="{% url 'core:about' %}">
                             <i class="fas fa-info-circle"></i> About
                         </a>
                     </li>
-                    <!-- ===== ART LINK ===== -->
+
+                    <!-- Art -->
                     <li class="nav-item">
                         <a class="nav-link nav-link-custom" href="{% url 'core:art' %}">
                             <i class="fas fa-palette"></i> Art
                         </a>
                     </li>
+
+                    <!-- Contact -->
                     <li class="nav-item">
                         <a class="nav-link nav-link-custom" href="{% url 'core:contact' %}">
                             <i class="fas fa-envelope"></i> Contact
                         </a>
                     </li>
 
-                    {% if user.is_authenticated %}
-                        <li class="nav-item position-relative">
-                            <a class="nav-link nav-link-custom" href="{% url 'orders:cart' %}">
-                                <i class="fas fa-shopping-cart fs-5"></i>
-                                <span class="badge bg-danger rounded-pill cart-count" id="cart-count" style="position: absolute; top: -5px; right: -12px;">0</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle nav-link-custom" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user"></i> {{ user.first_name|default:user.username }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{% url 'orders:my_orders' %}"><i class="fas fa-list"></i> My Orders</a></li>
+                    <!-- ===== PROFILE DROPDOWN ===== -->
+                    <li class="nav-item dropdown profile-dropdown">
+                        <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user avatar-icon"></i>
+                            <span>Profile</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% if user.is_authenticated %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                                        <i class="fas fa-user-circle"></i> {{ user.first_name|default:user.username }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'orders:history' %}">
+                                        <i class="fas fa-clock-rotate-left"></i> History
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom" href="{% url 'accounts:register' %}">
-                                <i class="fas fa-user-plus"></i> Register
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom" href="{% url 'accounts:login' %}">
-                                <i class="fas fa-sign-in-alt"></i> Login
-                            </a>
-                        </li>
-                    {% endif %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:logout' %}">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:register' %}">
+                                        <i class="fas fa-user-plus"></i> Register
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:login' %}">
+                                        <i class="fas fa-sign-in-alt"></i> Login
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
+                    <!-- ===== CART ===== -->
+                    <li class="nav-item">
+                        <a class="cart-link" href="{% url 'orders:cart' %}">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cart-count">0</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -308,7 +398,7 @@
     <!-- ===== FOOTER ===== -->
     <footer class="text-center py-3 mt-auto">
         <div class="container">
-            <p class="mb-0">&copy; 2026 Kiarash Cafe. All rights reserved.</p>
+            <p class="mb-0">&copy; 2024 Kiarash Cafe. All rights reserved.</p>
         </div>
     </footer>
 

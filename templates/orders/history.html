@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order History - Kiarash Cafe{% endblock %}
+
+{% block content %}
+<style>
+    .history-page {
+        padding-top: 140px;
+        padding-bottom: 80px;
+        min-height: 100vh;
+        background: #FEF1B4;
+    }
+
+    .history-page h1 {
+        color: #0A5C36;
+        font-weight: 700;
+        font-size: 2.8rem;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .history-page .divider {
+        width: 60px;
+        height: 2px;
+        background: #225E2E;
+        margin: 0 auto 40px;
+        border-radius: 5px;
+    }
+
+    .order-card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 16px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        border: 1px solid rgba(10, 92, 54, 0.06);
+        transition: all 0.3s ease;
+    }
+
+    .order-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(10, 92, 54, 0.1);
+    }
+
+    .order-card .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        border-bottom: 1px solid rgba(10, 92, 54, 0.06);
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+    }
+
+    .order-card .order-header .order-id {
+        font-weight: 600;
+        color: #0A5C36;
+        font-size: 1.1rem;
+    }
+
+    .order-card .order-header .order-date {
+        color: #888;
+        font-size: 0.9rem;
+    }
+
+    .order-card .order-header .order-status {
+        padding: 4px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .order-card .order-header .order-status.pending {
+        background: #FFF3CD;
+        color: #856404;
+    }
+
+    .order-card .order-header .order-status.confirmed {
+        background: #D1ECF1;
+        color: #0C5460;
+    }
+
+    .order-card .order-header .order-status.preparing {
+        background: #D6D8DB;
+        color: #383D41;
+    }
+
+    .order-card .order-header .order-status.ready {
+        background: #D4EDDA;
+        color: #155724;
+    }
+
+    .order-card .order-header .order-status.delivered {
+        background: #C3E6CB;
+        color: #0B5E2E;
+    }
+
+    .order-card .order-header .order-status.cancelled {
+        background: #F8D7DA;
+        color: #721C24;
+    }
+
+    .order-card .order-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 16px;
+    }
+
+    .order-card .order-items .item {
+        font-size: 0.92rem;
+        color: #444;
+    }
+
+    .order-card .order-items .item .qty {
+        font-weight: 600;
+        color: #0A5C36;
+    }
+
+    .order-card .order-total {
+        text-align: right;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #0A5C36;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(10, 92, 54, 0.06);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 16px;
+        border: 1px dashed rgba(10, 92, 54, 0.2);
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: #C8973B;
+        opacity: 0.4;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .empty-state h3 {
+        color: #2B1B12;
+        font-weight: 600;
+        font-size: 1.4rem;
+        margin-bottom: 6px;
+    }
+
+    .empty-state p {
+        color: #7C7261;
+        font-weight: 300;
+    }
+
+    @media (max-width: 576px) {
+        .history-page { padding-top: 110px; }
+        .history-page h1 { font-size: 2rem; }
+        .order-card { padding: 16px; }
+        .order-card .order-header { flex-direction: column; align-items: stretch; text-align: center; }
+        .order-card .order-total { text-align: center; }
+    }
+</style>
+
+<section class="history-page">
+    <div class="container">
+        <h1><i class="fas fa-clock-rotate-left" style="color: #225E2E;"></i> Order History</h1>
+        <div class="divider"></div>
+
+        {% if orders %}
+            {% for order in orders %}
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-id">#{{ order.id }}</span>
+                    <span class="order-date">{{ order.created_at|date:"M d, Y - H:i" }}</span>
+                    <span class="order-status {{ order.status|lower }}">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+                <div class="order-items">
+                    {% for item in order.items.all %}
+                    <span class="item">
+                        <span class="qty">{{ item.quantity }}×</span> {{ item.product_name }}
+                        {% if item.price_type %}({{ item.price_type }}){% endif %}
+                    </span>
+                    {% endfor %}
+                </div>
+                <div class="order-total">Total: {{ order.total_amount }} تومان</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-receipt"></i>
+                <h3>No Orders Yet</h3>
+                <p>You haven't placed any orders yet. Start exploring our menu!</p>
+                <a href="{% url 'menu:menu_list' %}" class="btn btn-success-custom mt-3" style="display: inline-block; padding: 10px 30px; background: #225E2E; color: #FEF1B4; border-radius: 30px; text-decoration: none;">
+                    <i class="fas fa-utensils"></i> View Menu
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}ش
