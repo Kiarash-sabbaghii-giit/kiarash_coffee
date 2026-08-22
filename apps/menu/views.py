@@ -1,14 +1,14 @@
 # apps/menu/views.py
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import JsonResponse
-from apps.menu.models import Category, Product
 from django.contrib.auth.decorators import login_required
 from django.db import models
+from apps.menu.models import Category, Product
 
 
 def menu_view(request):
-    """صفحه منو"""
+    """صفحه منو - نمایش تمام دسته‌بندی‌ها"""
     categories = Category.get_all_categories()
 
     if not categories:
@@ -32,9 +32,31 @@ def menu_view(request):
 
 def menu_detail(request, category_name):
     """نمایش محصولات یک دسته‌بندی"""
-    products = Product.get_products_by_category(category_name)
 
-    # پیدا کردن نام دسته‌بندی
+    # ===== اصلاح اینجا =====
+    # نگاشت نام‌های نمایشی به نام کلکشن‌های MongoDB
+    collection_mapping = {
+        'hot_drinks': 'hot_drinks',
+        'cold_drinks': 'cold_drinks',
+        'Seasonal_Promotion': 'Seasonal_Promotion',  # ← دقیقاً همین
+        'matcha': 'matcha',
+        'healthy_menu': 'healthy_menu',
+        'Brewed_coffee': 'Brewed_coffee',  # ← دقیقاً همین
+        'tea': 'tea',
+        'elcless': 'elcless',
+        'cakes': 'cakes',
+        'testbar': 'testbar',
+        'crosan_sandwich': 'crosan_sandwich',
+        'popsickle': 'popsickle'
+    }
+
+    # دریافت نام کلکشن صحیح
+    collection_name = collection_mapping.get(category_name, category_name)
+
+    # دریافت محصولات از MongoDB با نام کلکشن صحیح
+    products = Product.get_products_by_category(collection_name)
+
+    # پیدا کردن نام دسته‌بندی برای نمایش
     category_names = {
         'hot_drinks': 'Hot Drinks',
         'cold_drinks': 'Cold Drinks',
@@ -75,7 +97,6 @@ def add_to_cart(request):
         image_url = request.POST.get('image_url', '')
 
         try:
-            # بررسی وجود محصول در سبد خرید
             cart_item, created = CartItem.objects.get_or_create(
                 user=request.user,
                 product_name=product_name,

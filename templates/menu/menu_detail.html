@@ -1,294 +1,805 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ category.persian_name }} - Kiarash Cafe{% endblock %}
 
+{% block title %}{{ category.persian_name }} - Kiarash Cafe{% endblock %}
 
 {% block content %}
 <style>
-    .menu-detail {
-        padding-top: 120px;
-        padding-bottom: 60px;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #FBF5C3 0%, #FEF1B4 100%);
+    /* =====================================================
+       MENU DETAIL — Professional Coffee Shop Design
+    ===================================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600;700&display=swap');
+
+    :root {
+        --cream: #FEF1B4;
+        --cream-soft: #FFFDF6;
+        --forest: #0A5C36;
+        --forest-deep: #073D24;
+        --forest-light: #2E7D4F;
+        --espresso: #2B1B12;
+        --gold: #C8973B;
+        --gold-soft: #E4C171;
+        --shadow-color: 10, 92, 54;
+        --ink-muted: #7C7261;
+        --danger: #B3261E;
+        --success: #2E7D4F;
+        --radius-lg: 20px;
+        --radius-md: 14px;
+        --radius-sm: 10px;
+        --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
     }
 
-    .product-card {
-        background: white;
-        border-radius: 20px;
+    .menu-detail {
+        padding-top: 140px;
+        padding-bottom: 100px;
+        min-height: 100vh;
+        background: var(--cream);
+        background-image:
+            radial-gradient(circle at 10% 20%, rgba(10, 92, 54, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 90% 80%, rgba(200, 151, 59, 0.06) 0%, transparent 45%);
+        position: relative;
         overflow: hidden;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        transition: all 0.4s ease;
+        font-family: 'Jost', 'Segoe UI', sans-serif;
+    }
+
+    .menu-detail::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(43, 27, 18, 0.03) 1.5px, transparent 1.5px);
+        background-size: 28px 28px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .menu-detail .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+    }
+
+    /* ===== BACK LINK ===== */
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--forest);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.3s var(--ease-out);
+        margin-bottom: 30px;
+        padding: 8px 20px;
+        border-radius: 50px;
+        background: rgba(10, 92, 54, 0.06);
+        border: 1px solid rgba(10, 92, 54, 0.08);
+    }
+
+    .back-link:hover {
+        background: var(--forest);
+        color: #fff;
+        transform: translateX(-4px);
+        border-color: var(--forest);
+    }
+
+    .back-link i {
+        transition: transform 0.3s var(--ease-out);
+    }
+
+    .back-link:hover i {
+        transform: translateX(-4px);
+    }
+
+    /* ===== HEADER ===== */
+    .category-header {
+        text-align: center;
+        margin-bottom: clamp(36px, 5vw, 50px);
+    }
+
+    .category-header .eyebrow {
+        display: inline-block;
+        color: var(--gold);
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        background: rgba(200, 151, 59, 0.1);
+        padding: 4px 16px;
+        border-radius: 20px;
+    }
+
+    .category-header h1 {
+        font-family: 'Playfair Display', serif;
+        color: var(--espresso);
+        font-weight: 700;
+        font-size: clamp(2.1rem, 5vw, 3.2rem);
+        margin-bottom: 6px;
+        letter-spacing: 0.3px;
+        line-height: 1.15;
+    }
+
+    .category-header .divider {
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--forest), var(--gold));
+        margin: 16px auto;
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .category-header .divider::after {
+        content: '☕';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--cream);
+        padding: 0 12px;
+        font-size: 0.9rem;
+    }
+
+    .category-header .subtitle {
+        color: var(--ink-muted);
+        font-size: 1.05rem;
+        font-weight: 300;
+        max-width: 520px;
+        margin: 0 auto;
+        letter-spacing: 0.2px;
+        line-height: 1.6;
+    }
+
+    /* ===== PRODUCT GRID ===== */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+        margin-top: 10px;
+    }
+
+    @media (max-width: 992px) {
+        .product-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
+    }
+
+    @media (max-width: 560px) {
+        .product-grid { grid-template-columns: 1fr; gap: 18px; }
+    }
+
+    /* ===== PRODUCT CARD ===== */
+    .product-card {
+        background: var(--cream-soft);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: 0 6px 24px rgba(var(--shadow-color), 0.06);
+        border: 1px solid rgba(var(--shadow-color), 0.06);
+        transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out), border-color 0.5s var(--ease-out);
+        display: flex;
+        flex-direction: column;
         height: 100%;
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    .product-card.visible {
+        opacity: 1;
+        transform: translateY(0);
     }
 
     .product-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 60px rgba(34, 94, 46, 0.15);
+        transform: translateY(-10px) scale(1.01);
+        box-shadow: 0 25px 60px rgba(var(--shadow-color), 0.18);
+        border-color: rgba(var(--shadow-color), 0.2);
     }
 
-    .product-card img {
+    /* ===== IMAGE ===== */
+    .product-card .product-image {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 4 / 3;
+        flex-shrink: 0;
+        background: linear-gradient(160deg, rgba(10, 92, 54, 0.06), rgba(200, 151, 59, 0.05));
+    }
+
+    .product-card .product-image img {
         width: 100%;
-        height: 220px;
+        height: 100%;
         object-fit: cover;
+        display: block;
+        transition: transform 0.7s var(--ease-out);
     }
 
-    .product-body {
-        padding: 20px;
+    .product-card:hover .product-image img {
+        transform: scale(1.08);
     }
 
-    .product-body h4 {
-        color: #0A5C36;
+    .product-card .product-image .image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.2) 100%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+    }
+
+    .product-card:hover .product-image .image-overlay {
+        opacity: 1;
+    }
+
+    /* ===== PRODUCT INFO ===== */
+    .product-card .product-info {
+        padding: 22px 24px 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-card .product-info .english-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.4rem;
         font-weight: 600;
-        margin-bottom: 5px;
+        color: var(--espresso);
+        margin-bottom: 2px;
+        letter-spacing: 0.2px;
+        line-height: 1.25;
+        transition: color 0.3s ease;
     }
 
-    .product-body .english-name {
-        color: #6c757d;
+    .product-card:hover .product-info .english-name {
+        color: var(--forest);
+    }
+
+    .product-card .product-info .persian-name {
         font-size: 0.9rem;
-        margin-bottom: 10px;
+        font-weight: 400;
+        color: var(--ink-muted);
+        margin-bottom: 12px;
+        letter-spacing: 0.2px;
     }
 
-    .product-body .description {
-        font-size: 0.9rem;
-        color: #6c757d;
-        margin-bottom: 15px;
+    .product-card .product-info .description {
+        font-size: 0.85rem;
+        color: var(--ink-muted);
+        line-height: 1.6;
+        margin-bottom: 14px;
+        font-weight: 300;
+        opacity: 0.9;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        transition: opacity 0.3s ease;
     }
 
-    .price-variant {
-        display: inline-block;
-        margin: 3px;
-        padding: 4px 14px;
-        background: #FEF1B4;
+    .product-card:hover .product-info .description {
+        opacity: 1;
+    }
+
+    /* ===== PRICE VARIANTS - گروه‌بندی شده ===== */
+    .product-card .product-info .variants {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+
+    .product-card .product-info .variants .variant {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 16px;
         border-radius: 20px;
-        font-size: 0.8rem;
-        color: #0A5C36;
+        font-size: 0.78rem;
+        font-weight: 500;
+        font-family: inherit;
+        background: rgba(10, 92, 54, 0.06);
+        color: var(--forest);
+        border: 1px solid rgba(10, 92, 54, 0.1);
         cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
+        transition: all 0.3s var(--ease-out);
+        appearance: none;
+        position: relative;
     }
 
-    .price-variant:hover {
-        background: #225E2E;
-        color: #FEF1B4;
-        transform: scale(1.05);
+    .product-card .product-info .variants .variant::after {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, var(--forest), var(--gold));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
     }
 
-    .price-variant.active {
-        border-color: #225E2E;
-        background: #225E2E;
-        color: #FEF1B4;
+    .product-card .product-info .variants .variant:hover {
+        border-color: var(--forest);
+        transform: scale(1.04);
+        background: rgba(10, 92, 54, 0.12);
     }
 
-    .product-price {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #225E2E;
-        margin: 10px 0;
+    .product-card .product-info .variants .variant.active {
+        background: var(--forest);
+        color: #fff;
+        border-color: var(--forest);
+        transform: scale(1.04);
+        box-shadow: 0 4px 15px rgba(10, 92, 54, 0.3);
     }
 
-    .add-to-cart-btn {
-        background: #225E2E;
-        color: #FEF1B4;
-        border: none;
-        padding: 10px 25px;
-        border-radius: 30px;
-        transition: all 0.3s ease;
-        width: 100%;
+    .product-card .product-info .variants .variant .price {
         font-weight: 600;
-        cursor: pointer;
+        color: var(--gold);
     }
 
-    .add-to-cart-btn:hover {
-        background: #0A5C36;
-        transform: scale(1.02);
+    .product-card .product-info .variants .variant.active .price {
+        color: #fff;
     }
 
-    .quantity-control {
+    .product-card .product-info .variants .variant .type-label {
+        font-weight: 400;
+    }
+
+    /* ===== QUANTITY & ADD TO CART ===== */
+    .product-card .product-info .actions {
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin: 10px 0;
+        gap: 12px;
+        margin-top: auto;
+        padding-top: 14px;
+        border-top: 1px solid rgba(43, 27, 18, 0.08);
     }
 
-    .quantity-control button {
+    .product-card .product-info .actions .qty-control {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(10, 92, 54, 0.05);
+        border-radius: 30px;
+        padding: 3px;
+        border: 1px solid rgba(10, 92, 54, 0.1);
+        transition: border-color 0.3s ease;
+    }
+
+    .product-card .product-info .actions .qty-control:hover {
+        border-color: var(--forest);
+    }
+
+    .product-card .product-info .actions .qty-control button {
         width: 30px;
         height: 30px;
-        border-radius: 50%;
-        border: 1px solid #225E2E;
-        background: transparent;
-        color: #225E2E;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .quantity-control button:hover {
-        background: #225E2E;
-        color: #FEF1B4;
-    }
-
-    .quantity-control .quantity-display {
-        font-weight: 600;
-        min-width: 30px;
-        text-align: center;
-        font-size: 1.1rem;
-    }
-
-    .btn-back {
-        background: #225E2E;
-        color: #FEF1B4;
         border: none;
-        padding: 10px 30px;
+        background: transparent;
+        border-radius: 50%;
+        font-size: 1.1rem;
+        font-weight: 400;
+        color: var(--espresso);
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-card .product-info .actions .qty-control button:hover:not(:disabled) {
+        background: var(--forest);
+        color: #fff;
+        transform: scale(1.1);
+    }
+
+    .product-card .product-info .actions .qty-control button:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+
+    .product-card .product-info .actions .qty-control .qty-display {
+        font-weight: 600;
+        min-width: 26px;
+        text-align: center;
+        font-size: 1rem;
+        color: var(--espresso);
+    }
+
+    .product-card .product-info .actions .btn-add {
+        flex: 1;
+        padding: 10px 18px;
+        border: none;
         border-radius: 30px;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
+        font-weight: 600;
+        font-size: 0.85rem;
+        font-family: inherit;
+        background: var(--forest);
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s var(--ease-out);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        letter-spacing: 0.3px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .btn-back:hover {
-        background: #0A5C36;
-        color: #FEF1B4;
-        transform: translateX(-5px);
+    .product-card .product-info .actions .btn-add::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, var(--forest-deep), var(--forest-light));
+        opacity: 0;
+        transition: opacity 0.4s ease;
     }
 
+    .product-card .product-info .actions .btn-add:hover:not(:disabled)::before {
+        opacity: 1;
+    }
+
+    .product-card .product-info .actions .btn-add:hover:not(:disabled) {
+        transform: scale(1.03);
+        box-shadow: 0 8px 25px rgba(10, 92, 54, 0.3);
+    }
+
+    .product-card .product-info .actions .btn-add span,
+    .product-card .product-info .actions .btn-add i {
+        position: relative;
+        z-index: 1;
+    }
+
+    .product-card .product-info .actions .btn-add.is-success {
+        background: var(--success) !important;
+    }
+    .product-card .product-info .actions .btn-add.is-error {
+        background: var(--danger) !important;
+    }
+
+    .product-card .product-info .actions .btn-add:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        background: var(--cream-soft);
+        border-radius: var(--radius-lg);
+        border: 1px dashed rgba(var(--shadow-color), 0.2);
+        grid-column: 1 / -1;
+        transition: all 0.5s ease;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--gold);
+        opacity: 0.4;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .empty-state h3 {
+        color: var(--espresso);
+        font-weight: 600;
+        font-size: 1.4rem;
+        margin-bottom: 6px;
+    }
+
+    .empty-state p {
+        color: var(--ink-muted);
+        font-weight: 300;
+    }
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-        .menu-detail { padding-top: 100px; }
-        .product-card img { height: 180px; }
+        .menu-detail { padding-top: 110px; }
+        .product-card .product-info { padding: 18px 20px 20px; }
+        .product-card .product-info .english-name { font-size: 1.2rem; }
+    }
+
+    @media (max-width: 400px) {
+        .product-card .product-info .actions { flex-wrap: wrap; }
+        .product-card .product-info .actions .btn-add { width: 100%; }
+        .product-card .product-info .variants .variant { font-size: 0.7rem; padding: 4px 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .product-card,
+        .product-card .product-image img,
+        .product-card .product-image .image-overlay,
+        .variant,
+        .btn-add,
+        .qty-control button,
+        .back-link,
+        .back-link i {
+            transition: none !important;
+        }
+        .product-card {
+            opacity: 1 !important;
+            transform: none !important;
+        }
     }
 </style>
 
 <section class="menu-detail">
     <div class="container">
-        <div class="mb-4">
-            <a href="{% url 'menu:menu_list' %}" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Back to Menu
-            </a>
+
+        <!-- ===== BACK LINK ===== -->
+        <a href="{% url 'menu:menu_list' %}" class="back-link">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Menu
+        </a>
+
+        <!-- ===== HEADER ===== -->
+        <div class="category-header">
+            <span class="eyebrow">Kiarash Cafe</span>
+            <h1>{{ category.persian_name }}</h1>
+            <div class="divider"></div>
+            <p class="subtitle">{{ category.description|default:'Handcrafted with passion and precision' }}</p>
         </div>
 
-        <div class="text-center mb-5">
-            <h1 class="display-3" style="color: #0A5C36;">{{ category.persian_name }}</h1>
-            <p class="fs-5" style="color: #225E2E;">{{ category.description|default:'' }}</p>
-        </div>
-
-        <div class="row g-4">
+        <!-- ===== PRODUCT GRID ===== -->
+        <div class="product-grid">
             {% for product in products %}
-            <div class="col-md-4 col-sm-6">
-                <div class="product-card" data-product='{"name":"{{ product.persian_name }}","image":"{{ product.image_url }}"}'>
-                    <img src="{{ product.image_url|default:'/static/images/placeholder.jpg' }}" alt="{{ product.persian_name }}" onerror="this.src='/static/images/placeholder.jpg'">
-                    <div class="product-body">
-                        <h4>{{ product.persian_name }}</h4>
-                        <p class="english-name">{{ product.english_name }}</p>
-                        <p class="description">{{ product.description|default:''|truncatechars:80 }}</p>
+            <article class="product-card">
+                <!-- Image -->
+                <div class="product-image">
+                    <img src="{{ product.image_url|default:'/static/images/placeholder.jpg' }}"
+                         alt="{{ product.english_name|default:product.persian_name }}"
+                         loading="lazy"
+                         onerror="this.onerror=null; this.src='/static/images/placeholder.jpg';">
+                    <div class="image-overlay" aria-hidden="true"></div>
+                </div>
 
-                        <div class="price-variants">
-                            {% if product.variants %}
-                                {% for variant in product.variants %}
-                                <span class="price-variant {% if forloop.first %}active{% endif %}"
-                                      data-price="{{ variant.price }}"
-                                      data-type="{{ variant.price_type }}">
-                                    {{ variant.price_type|default:'Standard' }} - {{ variant.price }} تومان
-                                </span>
-                                {% endfor %}
-                            {% else %}
-                                <span class="price-variant active" data-price="{{ product.price }}" data-type="">
-                                    {{ product.price|default:'0' }} تومان
-                                </span>
-                            {% endif %}
-                        </div>
+                <!-- Info -->
+                <div class="product-info">
+                    <h2 class="english-name">{{ product.english_name|default:product.persian_name }}</h2>
+                    <div class="persian-name">{{ product.persian_name }}</div>
 
-                        <div class="quantity-control">
-                            <button onclick="updateQty(this, -1)">−</button>
-                            <span class="quantity-display">1</span>
-                            <button onclick="updateQty(this, 1)">+</button>
+                    {% if product.description %}
+                    <p class="description">{{ product.description }}</p>
+                    {% endif %}
+
+                    <!-- Price Variants -->
+                    <div class="variants" role="group" aria-label="Price options">
+                        {% if product.variants %}
+                            {% for variant in product.variants %}
+                            <button type="button"
+                                    class="variant {% if forloop.first %}active{% endif %}"
+                                    data-price="{{ variant.price }}"
+                                    data-type="{{ variant.price_type }}"
+                                    aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+                                <span class="type-label">{{ variant.price_type|default:'Standard' }}</span>
+                                <span class="price">{{ variant.price }}</span>
+                            </button>
+                            {% endfor %}
+                        {% else %}
+                            <button type="button" class="variant active" data-price="{{ product.price|default:'0' }}" data-type="" aria-pressed="true">
+                                <span class="price">{{ product.price|default:'0' }}</span>
+                            </button>
+                        {% endif %}
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="actions">
+                        <div class="qty-control">
+                            <button type="button" class="qty-minus" aria-label="Decrease quantity">−</button>
+                            <span class="qty-display" aria-live="polite">1</span>
+                            <button type="button" class="qty-plus" aria-label="Increase quantity">+</button>
                             <input type="hidden" class="qty-input" value="1">
                         </div>
-
-                        <button class="add-to-cart-btn" onclick="addToCart(this)">
-                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                        <button type="button" class="btn-add" data-image="{{ product.image_url|default:'' }}">
+                            <i class="fas fa-shopping-bag" aria-hidden="true"></i> <span class="btn-add-label">Add</span>
                         </button>
                     </div>
                 </div>
-            </div>
+            </article>
             {% empty %}
-            <div class="col-12 text-center py-5">
-                <h3 style="color: #6c757d;">No products found in this category</h3>
+            <div class="empty-state" role="status">
+                <i class="fas fa-mug-hot" aria-hidden="true"></i>
+                <h3>No Products Found</h3>
+                <p>We're updating our menu. Please check back soon!</p>
             </div>
             {% endfor %}
         </div>
+
     </div>
 </section>
 
 <script>
-    // Price variant selection
-    document.querySelectorAll('.price-variant').forEach(el => {
-        el.addEventListener('click', function() {
-            this.closest('.price-variants').querySelectorAll('.price-variant').forEach(v => v.classList.remove('active'));
-            this.classList.add('active');
+(function () {
+    const csrfToken = '{{ csrf_token }}';
+    const addToCartUrl = '{% url "menu:add_to_cart" %}';
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // ===== SCROLL REVEAL با انیمیشن =====
+        if (typeof gsap !== 'undefined' && !prefersReducedMotion) {
+            const cards = document.querySelectorAll('.product-card');
+
+            cards.forEach(function(card, index) {
+                gsap.to(card, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.7,
+                    delay: index * 0.08,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none',
+                        once: true
+                    }
+                });
+            });
+
+            // Header animation
+            gsap.from('.category-header h1, .category-header .eyebrow, .category-header .divider, .category-header .subtitle', {
+                scrollTrigger: {
+                    trigger: '.category-header',
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                },
+                y: -30,
+                opacity: 0,
+                duration: 0.7,
+                stagger: 0.12,
+                ease: 'power2.out'
+            });
+
+            // Back link animation
+            gsap.from('.back-link', {
+                scrollTrigger: {
+                    trigger: '.back-link',
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                },
+                x: -40,
+                opacity: 0,
+                duration: 0.6,
+                ease: 'power2.out'
+            });
+        } else if (!prefersReducedMotion) {
+            // Fallback: show cards immediately if GSAP not loaded
+            document.querySelectorAll('.product-card').forEach(function(card) {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+        } else {
+            // Reduced motion: show cards immediately
+            document.querySelectorAll('.product-card').forEach(function(card) {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+        }
+
+        // ===== QUANTITY CONTROLS =====
+        document.querySelectorAll('.qty-control').forEach(function (control) {
+            const minusBtn = control.querySelector('.qty-minus');
+            const plusBtn = control.querySelector('.qty-plus');
+            const display = control.querySelector('.qty-display');
+            const input = control.querySelector('.qty-input');
+            const MIN = 1;
+            const MAX = 99;
+
+            function syncButtons(val) {
+                minusBtn.disabled = val <= MIN;
+                plusBtn.disabled = val >= MAX;
+            }
+
+            syncButtons(parseInt(input.value, 10));
+
+            minusBtn.addEventListener('click', function () {
+                const val = Math.max(MIN, parseInt(input.value, 10) - 1);
+                input.value = val;
+                display.textContent = val;
+                syncButtons(val);
+            });
+
+            plusBtn.addEventListener('click', function () {
+                const val = Math.min(MAX, parseInt(input.value, 10) + 1);
+                input.value = val;
+                display.textContent = val;
+                syncButtons(val);
+            });
+        });
+
+        // ===== VARIANT SELECTION =====
+        document.querySelectorAll('.variants').forEach(function (group) {
+            group.querySelectorAll('.variant').forEach(function (variant) {
+                variant.addEventListener('click', function () {
+                    group.querySelectorAll('.variant').forEach(function (v) {
+                        v.classList.remove('active');
+                        v.setAttribute('aria-pressed', 'false');
+                    });
+                    this.classList.add('active');
+                    this.setAttribute('aria-pressed', 'true');
+                });
+            });
+        });
+
+        // ===== ADD TO CART =====
+        document.querySelectorAll('.btn-add').forEach(function (btn) {
+            const defaultHTML = btn.innerHTML;
+            btn.addEventListener('click', function () {
+                if (btn.disabled) return;
+
+                const card = btn.closest('.product-card');
+                const englishName = card.querySelector('.english-name')?.textContent?.trim() || '';
+                const persianName = card.querySelector('.persian-name')?.textContent?.trim() || '';
+                const activeVariant = card.querySelector('.variant.active');
+
+                const price = activeVariant ? activeVariant.dataset.price : '';
+                const type = activeVariant ? activeVariant.dataset.type : '';
+                const quantity = card.querySelector('.qty-input')?.value || 1;
+                const imageUrl = btn.dataset.image || card.querySelector('.product-image img')?.getAttribute('src') || '';
+
+                const productName = persianName || englishName;
+
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+
+                const formData = new URLSearchParams();
+                formData.append('product_name', productName);
+                formData.append('price', price);
+                formData.append('quantity', quantity);
+                formData.append('price_type', type);
+                formData.append('image_url', imageUrl);
+
+                fetch(addToCartUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: formData
+                })
+                    .then(function (response) {
+                        if (!response.ok) throw new Error('Request failed');
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        if (data.status === 'success') {
+                            btn.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i> Added!';
+                            btn.classList.add('is-success');
+                            updateCartCount();
+
+                            // Success animation
+                            gsap.to(btn, {
+                                scale: 1.05,
+                                duration: 0.3,
+                                ease: 'back.out(2)',
+                                yoyo: true,
+                                repeat: 1
+                            });
+                        } else {
+                            throw new Error(data.message || 'Could not add item');
+                        }
+                    })
+                    .catch(function () {
+                        btn.innerHTML = '<i class="fas fa-exclamation-circle" aria-hidden="true"></i> Error';
+                        btn.classList.add('is-error');
+                    })
+                    .finally(function () {
+                        setTimeout(function () {
+                            btn.innerHTML = defaultHTML;
+                            btn.classList.remove('is-success', 'is-error');
+                            btn.disabled = false;
+                        }, 2000);
+                    });
+            });
         });
     });
 
-    // Quantity control
-    function updateQty(btn, change) {
-        const card = btn.closest('.product-card');
-        const input = card.querySelector('.qty-input');
-        const display = card.querySelector('.quantity-display');
-        let val = parseInt(input.value) + change;
-        if (val < 1) val = 1;
-        input.value = val;
-        display.textContent = val;
-    }
-
-    // Add to cart
-    function addToCart(btn) {
-        const card = btn.closest('.product-card');
-        const name = card.querySelector('h4').textContent;
-        const active = card.querySelector('.price-variant.active');
-        const price = active ? active.dataset.price : '';
-        const type = active ? active.dataset.type : '';
-        const qty = card.querySelector('.qty-input').value;
-
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Adding...';
-        btn.disabled = true;
-
-        fetch('{% url "menu:add_to_cart" %}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: new URLSearchParams({
-                'product_name': name,
-                'price': price,
-                'quantity': qty,
-                'price_type': type,
-                'image_url': ''
+    // ===== UPDATE CART COUNT =====
+    function updateCartCount() {
+        fetch('/menu/cart-count/')
+            .then(function (response) { return response.json(); })
+            .then(function (data) {
+                const el = document.getElementById('cart-count');
+                if (el) el.textContent = data.count || 0;
             })
-        })
-        .then(r => r.json())
-        .then(data => {
-            btn.innerHTML = '<i class="fas fa-check"></i> Added!';
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
-                btn.disabled = false;
-            }, 2000);
-            updateCartCount();
-        })
-        .catch(() => {
-            btn.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error';
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
-                btn.disabled = false;
-            }, 2000);
-        });
+            .catch(function () {});
     }
-
-    // GSAP Animation
-    document.addEventListener('DOMContentLoaded', function() {
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.from('.product-card', {
-            scrollTrigger: { trigger: '.menu-detail', start: 'top 80%', toggleActions: 'play none none none' },
-            y: 50, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out'
-        });
-    });
+})();
 </script>
 {% endblock %}

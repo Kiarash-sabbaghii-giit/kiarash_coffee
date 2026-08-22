@@ -4,107 +4,973 @@
 {% block title %}Menu - Kiarash Cafe{% endblock %}
 
 {% block content %}
+
 <style>
-    .menu-section {
-        padding-top: 120px;
-        padding-bottom: 60px;
+    /* =====================================================
+       MENU PAGE — Refined Coffee-House Design
+    ===================================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+
+    :root {
+        --cream: #FEF1B4;
+        --cream-soft: #FFFDF6;
+        --forest: #0A5C36;
+        --forest-deep: #073D24;
+        --forest-light: #2E7D4F;
+        --espresso: #2B1B12;
+        --gold: #C8973B;
+        --gold-soft: #E4C171;
+        --shadow-color: 10, 92, 54;
+        --ink-muted: #7C7261;
+    }
+
+    /* =====================================================
+       MAIN PAGE
+    ===================================================== */
+
+    .menu-page {
+        --card-radius: 22px;
+
+        padding-top: 140px;
+        padding-bottom: 100px;
+
         min-height: 100vh;
-        background: linear-gradient(135deg, #FEF1B4 0%, #FBF5C3 100%);
+
+        background: var(--cream);
+
+        background-image:
+            radial-gradient(
+                circle at 8% 15%,
+                rgba(10, 92, 54, 0.07) 0%,
+                transparent 45%
+            ),
+            radial-gradient(
+                circle at 92% 85%,
+                rgba(200, 151, 59, 0.09) 0%,
+                transparent 45%
+            ),
+            radial-gradient(
+                circle at 50% 50%,
+                rgba(255, 251, 240, 0.4) 0%,
+                transparent 70%
+            );
+
+        position: relative;
+        overflow: hidden;
+
+        font-family:
+            'Vazirmatn',
+            'Segoe UI',
+            Tahoma,
+            Geneva,
+            Verdana,
+            sans-serif;
     }
 
-    .menu-card {
-        background: white;
-        border-radius: 20px;
-        padding: 30px 20px;
+    .menu-page::before {
+        content: '';
+
+        position: absolute;
+        inset: 0;
+
+        background-image:
+            radial-gradient(
+                rgba(43, 27, 18, 0.035) 1.5px,
+                transparent 1.5px
+            );
+
+        background-size: 26px 26px;
+
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .menu-page .container {
+        position: relative;
+        z-index: 1;
+
+        max-width: 1180px;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .menu-header {
         text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        text-decoration: none;
-        display: block;
-        color: inherit;
-        height: 100%;
+        margin-bottom: 60px;
+        position: relative;
     }
 
-    .menu-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 60px rgba(34, 94, 46, 0.2);
-        background: #225E2E;
-        color: #FEF1B4;
+    .menu-header .badge-line {
+        display: inline-flex;
+        align-items: center;
+
+        gap: 14px;
+
+        color: var(--gold);
+
+        font-size: 0.72rem;
+        font-weight: 700;
+
+        letter-spacing: 4px;
+        text-transform: uppercase;
+
+        margin-bottom: 14px;
     }
 
-    .menu-card i {
-        font-size: 3rem;
-        margin-bottom: 15px;
-        color: #225E2E;
-        transition: all 0.3s ease;
+    .menu-header .badge-line::before,
+    .menu-header .badge-line::after {
+        content: '';
+
+        width: 34px;
+        height: 1px;
+
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                var(--gold)
+            );
+
+        opacity: 0.6;
     }
 
-    .menu-card:hover i {
-        color: #FEF1B4;
-        transform: scale(1.1);
+    .menu-header .badge-line::after {
+        background:
+            linear-gradient(
+                90deg,
+                var(--gold),
+                transparent
+            );
     }
 
-    .menu-card h3 {
-        font-size: 1.3rem;
-        font-weight: 600;
+    .menu-header h1 {
+        color: var(--espresso);
+
+        font-weight: 700;
+        font-size: 3.6rem;
+
+        font-family:
+            'Playfair Display',
+            'Vazirmatn',
+            serif;
+
+        letter-spacing: 0.5px;
+
         margin-bottom: 10px;
+
+        line-height: 1.15;
     }
 
-    .menu-card p {
-        font-size: 0.9rem;
+    .menu-header h1 span {
+        color: var(--forest);
+        font-style: italic;
+        position: relative;
+    }
+
+    .menu-header .divider {
+        width: 56px;
+        height: 2px;
+
+        background:
+            linear-gradient(
+                90deg,
+                var(--forest),
+                var(--gold)
+            );
+
+        margin: 22px auto;
+
+        border-radius: 5px;
+
+        position: relative;
+    }
+
+    .menu-header .divider::after {
+        content: '☕';
+
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+
+        transform: translate(-50%, -50%);
+
+        background: var(--cream);
+
+        padding: 0 14px;
+
+        font-size: 1rem;
+    }
+
+    .menu-header .subtitle {
+        color: var(--forest-deep);
+
+        font-size: 1.12rem;
+
+        opacity: 0.78;
+
+        font-weight: 300;
+
+        letter-spacing: 0.3px;
+
+        margin-top: 6px;
+
+        max-width: 460px;
+
+        margin-inline: auto;
+    }
+
+
+    /* =====================================================
+       CATEGORY GRID
+    ===================================================== */
+
+    .category-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+
+        gap: 26px;
+
+        margin-top: 10px;
+
+        align-items: stretch;
+
+        grid-auto-rows: 1fr;
+    }
+
+
+    /* =====================================================
+       CATEGORY CARD
+    ===================================================== */
+
+    .category-card {
+        background: var(--cream-soft);
+
+        border-radius: var(--card-radius);
+
+        padding: 0;
+
+        text-align: center;
+
+        text-decoration: none;
+
+        color: inherit;
+
+        transition:
+            transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+            box-shadow 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+            border-color 0.35s ease;
+
+        box-shadow:
+            0 6px 24px
+            rgba(var(--shadow-color), 0.07);
+
+        border:
+            1px solid
+            rgba(var(--shadow-color), 0.08);
+
+        position: relative;
+
+        overflow: hidden;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        width: 100%;
+
+        height: 100%;
+
+        transform: translateY(0);
+    }
+
+    .category-card::before {
+        content: '';
+
+        position: absolute;
+
+        top: 0;
+        left: 0;
+        right: 0;
+
+        height: 3px;
+
+        background:
+            linear-gradient(
+                90deg,
+                var(--forest),
+                var(--gold)
+            );
+
+        transform: scaleX(0);
+
+        transition:
+            transform 0.4s ease;
+
+        transform-origin: left;
+
+        z-index: 2;
+    }
+
+    .category-card:hover::before,
+    .category-card:focus-visible::before {
+        transform: scaleX(1);
+    }
+
+    .category-card:hover,
+    .category-card:focus-visible {
+        transform: translateY(-8px);
+
+        box-shadow:
+            0 22px 46px
+            rgba(var(--shadow-color), 0.16);
+
+        border-color:
+            rgba(var(--shadow-color), 0.2);
+    }
+
+    .category-card:focus-visible {
+        outline:
+            2px solid var(--gold);
+
+        outline-offset: 3px;
+    }
+
+
+    /* =====================================================
+       IMAGE
+    ===================================================== */
+
+    .category-card .card-image {
+        width: 100%;
+
+        height: 280px;
+
+        min-height: 280px;
+        max-height: 280px;
+
+        overflow: hidden;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background:
+            linear-gradient(
+                160deg,
+                rgba(10, 92, 54, 0.07),
+                rgba(200, 151, 59, 0.06)
+            );
+
+        position: relative;
+
+        flex-shrink: 0;
+    }
+
+    .category-card .card-image img {
+        width: 100%;
+
+        height: 100%;
+
+        min-height: 100%;
+        max-height: 100%;
+
+        object-fit: cover;
+
+        object-position: center center;
+
+        transition:
+            transform 0.6s
+            cubic-bezier(0.2, 0.7, 0.3, 1);
+
+        display: block;
+
+        position: relative;
+
+        z-index: 1;
+    }
+
+    .category-card:hover .card-image img,
+    .category-card:focus-visible .card-image img {
+        transform: scale(1.06);
+    }
+
+    .category-card .card-image::after {
+        content: '';
+
+        position: absolute;
+
+        inset: 0;
+
+        background:
+            linear-gradient(
+                180deg,
+                rgba(0, 0, 0, 0.18) 0%,
+                transparent 30%
+            );
+
+        z-index: 1;
+
+        pointer-events: none;
+    }
+
+    .category-card .card-image .fallback-icon {
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+
+        transform:
+            translate(-50%, -50%);
+
+        font-size: 2.6rem;
+
+        color:
+            rgba(10, 92, 54, 0.25);
+
+        pointer-events: none;
+
+        z-index: 0;
+    }
+
+
+    /* =====================================================
+       ITEM NUMBER
+    ===================================================== */
+
+    .category-card .item-count {
+        position: absolute;
+
+        top: 12px;
+        right: 12px;
+
+        background: var(--gold);
+
+        color: white;
+
+        font-size: 0.62rem;
+
+        font-weight: 700;
+
+        width: 24px;
+        height: 24px;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        box-shadow:
+            0 3px 8px
+            rgba(200, 151, 59, 0.45);
+
+        z-index: 2;
+
+        opacity: 0;
+
+        transform: scale(0.5);
+
+        transition:
+            all 0.3s ease;
+    }
+
+    .category-card:hover .item-count,
+    .category-card:focus-visible .item-count {
+        opacity: 1;
+
+        transform: scale(1);
+    }
+
+
+    /* =====================================================
+       CONTENT
+    ===================================================== */
+
+    .category-card .card-content {
+        padding: 20px 20px 24px;
+
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        flex: 1;
+
+        justify-content: center;
+    }
+
+    .category-card h3 {
+        color: var(--espresso);
+
+        font-weight: 600;
+
+        font-size: 1.1rem;
+
+        margin-bottom: 8px;
+
+        letter-spacing: 0.2px;
+
+        transition:
+            color 0.3s ease;
+
+        min-height: 3.2rem;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+
+        line-height: 1.4;
+
+        width: 100%;
+    }
+
+    .category-card:hover h3,
+    .category-card:focus-visible h3 {
+        color: var(--forest);
+    }
+
+    .category-card .category-desc {
+        color: var(--ink-muted);
+
+        font-size: 0.8rem;
+
+        margin: 0;
+
+        font-weight: 300;
+
+        line-height: 1.5;
+
+        min-height: 2.4rem;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+
+        width: 100%;
+    }
+
+
+    /* =====================================================
+       ARROW
+    ===================================================== */
+
+    .category-card .arrow-icon {
+        position: absolute;
+
+        bottom: 18px;
+        right: 20px;
+
+        opacity: 0;
+
+        transform:
+            translateX(8px);
+
+        transition:
+            all 0.35s ease;
+
+        color: var(--gold);
+
+        font-size: 0.85rem;
+
+        z-index: 2;
+    }
+
+    .category-card:hover .arrow-icon,
+    .category-card:focus-visible .arrow-icon {
+        opacity: 1;
+
+        transform:
+            translateX(0);
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .menu-empty {
+        text-align: center;
+
+        padding: 90px 20px;
+
+        color: var(--forest-deep);
+
+        background: var(--cream-soft);
+
+        border-radius: var(--card-radius);
+
+        border:
+            1px dashed
+            rgba(var(--shadow-color), 0.25);
+    }
+
+    .menu-empty i {
+        font-size: 2.6rem;
+
+        color: var(--gold);
+
+        margin-bottom: 16px;
+
+        display: block;
+    }
+
+    .menu-empty p {
+        font-size: 1.05rem;
+
+        font-weight: 300;
+
         opacity: 0.8;
+
         margin: 0;
     }
 
+
+    /* =====================================================
+       RESPONSIVE — 992px
+    ===================================================== */
+
+    @media (max-width: 992px) {
+
+        .category-grid {
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+        .category-card .card-image {
+            height: 250px;
+
+            min-height: 250px;
+            max-height: 250px;
+        }
+    }
+
+
+    /* =====================================================
+       RESPONSIVE — 768px
+    ===================================================== */
+
     @media (max-width: 768px) {
-        .menu-section { padding-top: 100px; }
-        .menu-card { padding: 20px 15px; }
-        .menu-card i { font-size: 2rem; }
-        .menu-card h3 { font-size: 1.1rem; }
+
+        .menu-page {
+            padding-top: 110px;
+        }
+
+        .menu-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .category-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 16px;
+        }
+
+        .category-card .card-image {
+            height: 220px;
+
+            min-height: 220px;
+            max-height: 220px;
+        }
+
+        .category-card .card-content {
+            padding: 14px 14px 18px;
+        }
+
+        .category-card h3 {
+            font-size: 0.98rem;
+
+            min-height: 2.8rem;
+        }
+
+        .category-card .category-desc {
+            font-size: 0.75rem;
+
+            min-height: 2.2rem;
+        }
+
+        .category-card .item-count {
+            top: 8px;
+            right: 8px;
+
+            width: 20px;
+            height: 20px;
+
+            font-size: 0.55rem;
+        }
+    }
+
+
+    /* =====================================================
+       RESPONSIVE — 576px
+    ===================================================== */
+
+    @media (max-width: 576px) {
+
+        .menu-header h1 {
+            font-size: 2rem;
+        }
+
+        .category-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+        .category-card {
+            border-radius: 14px;
+        }
+
+        .category-card .card-image {
+            height: 180px;
+
+            min-height: 180px;
+            max-height: 180px;
+        }
+
+        .category-card .card-content {
+            padding: 12px 10px 16px;
+        }
+
+        .category-card h3 {
+            font-size: 0.85rem;
+
+            min-height: 2.4rem;
+        }
+
+        .category-card .category-desc {
+            font-size: 0.7rem;
+
+            min-height: 2rem;
+        }
+
+        .category-card .item-count {
+            top: 6px;
+            right: 6px;
+
+            width: 18px;
+            height: 18px;
+
+            font-size: 0.5rem;
+        }
+
+        .category-card .arrow-icon {
+            display: none;
+        }
+    }
+
+
+    /* =====================================================
+       REDUCED MOTION
+    ===================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .category-card,
+        .category-card::before,
+        .category-card .card-image img,
+        .category-card .item-count,
+        .category-card .arrow-icon {
+            transition: none !important;
+        }
     }
 </style>
 
-<section class="menu-section">
+
+<section class="menu-page">
+
     <div class="container">
-        <div class="text-center mb-5">
-            <h1 class="display-3" style="color: #0A5C36;">Our Menu</h1>
-            <p class="fs-5" style="color: #225E2E;">Choose from our delicious selection</p>
+
+        <!-- =================================================
+             HEADER
+        ================================================= -->
+
+        <div class="menu-header">
+
+            <div class="badge-line">
+                Discover
+            </div>
+
+            <h1>
+                Our <span>Menu</span>
+            </h1>
+
+            <div class="divider"></div>
+
+            <p class="subtitle">
+                Explore our curated selection of premium coffee &amp; treats
+            </p>
+
         </div>
 
-        <div class="row g-4">
+
+        <!-- =================================================
+             CATEGORY GRID
+        ================================================= -->
+
+        {% if categories %}
+
+        <div class="category-grid">
+
             {% for category in categories %}
-            <div class="col-md-3 col-sm-6">
-                <a href="{% url 'menu:menu_detail' category.name %}" class="menu-card">
-                    <i class="{{ category.icon|default:'fas fa-utensils' }}"></i>
-                    <h3>{{ category.persian_name }}</h3>
-                    <p>{{ category.description|default:'' }}</p>
-                </a>
-            </div>
+
+            <a
+                href="{% url 'menu:menu_detail' category.name %}"
+                class="category-card"
+                aria-label="{{ category.persian_name }}"
+            >
+
+                <!-- IMAGE -->
+
+                <div class="card-image">
+
+                    {% with forloop.counter|stringformat:"s" as counter %}
+
+                        <img
+                            src="{% static 'images/'|add:counter|add:'.png' %}"
+                            alt="{{ category.persian_name }}"
+                            loading="lazy"
+                            decoding="async"
+                            onerror="this.style.display='none'"
+                        >
+
+                    {% endwith %}
+
+                    <div class="fallback-icon">
+
+                        <i
+                            class="{{ category.icon|default:'fas fa-utensils' }}"
+                            aria-hidden="true"
+                        ></i>
+
+                    </div>
+
+
+                    <span class="item-count">
+                        {{ forloop.counter }}
+                    </span>
+
+                </div>
+
+
+                <!-- CONTENT -->
+
+                <div class="card-content">
+
+                    <h3>
+                        {{ category.persian_name }}
+                    </h3>
+
+                    <p class="category-desc">
+                        {{ category.description|default:"Fresh & delicious" }}
+                    </p>
+
+                </div>
+
+
+                <!-- ARROW -->
+
+                <span class="arrow-icon">
+
+                    <i
+                        class="fas fa-arrow-right"
+                        aria-hidden="true"
+                    ></i>
+
+                </span>
+
+            </a>
+
             {% endfor %}
+
         </div>
+
+
+        {% else %}
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================= -->
+
+        <div class="menu-empty">
+
+            <i
+                class="fas fa-mug-hot"
+                aria-hidden="true"
+            ></i>
+
+            <p>
+                No categories are available right now.
+                Please check back soon.
+            </p>
+
+        </div>
+
+        {% endif %}
+
     </div>
+
 </section>
 
+
+<!-- =====================================================
+     GSAP ANIMATION
+===================================================== -->
+
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Menu cards hover animation
-        document.querySelectorAll('.menu-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                gsap.to(this, {
-                    y: -8,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        function () {
+
+            if (typeof gsap === 'undefined') {
+                return;
+            }
+
+            if (typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+            }
+
+            gsap.from('.category-card', {
+
+                opacity: 0,
+
+                duration: 0.6,
+
+                stagger: 0.08,
+
+                ease: 'power2.out',
+
+                clearProps: 'opacity'
+
             });
-            card.addEventListener('mouseleave', function() {
-                gsap.to(this, {
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
-        });
-    });
+
+        }
+    );
+
 </script>
+
 {% endblock %}
